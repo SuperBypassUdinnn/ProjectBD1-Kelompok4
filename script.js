@@ -24,8 +24,8 @@ function closePopup(id) {
 
 // Fungsi untuk validasi login
 function handleLogin() {
-  const username = document.getElementById("loginUser").value.trim();
-  const password = document.getElementById("loginPass").value.trim();
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value.trim();
 
   // Validasi sederhana
   if (!username || !password) {
@@ -179,22 +179,113 @@ function logout() {
 
 function submitBooking() {
   // Ambil data form
-  const doctor = document.getElementById("doctor").value;
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
+  const doctor = document.getElementById('doctor').value;
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('time').value;
 
   if (!doctor || !date || !time) {
-    alert("Mohon lengkapi semua data reservasi.");
+    alert('Mohon lengkapi semua data reservasi.');
     return;
   }
 
-  alert(
-    "Reservasi berhasil!\nDokter: " +
-      doctor +
-      "\nTanggal: " +
-      date +
-      "\nJam: " +
-      time
-  );
-  closePopup("bookingPopup");
+  alert('Reservasi berhasil!\nDokter: ' + doctor + '\nTanggal: ' + date + '\nJam: ' + time);
+  closePopup('bookingPopup');
 }
+
+// Cek dan tampilkan status data diri di sidebar
+function updateSidebarProfile() {
+  // Ambil data dari localStorage
+  const id = localStorage.getItem('id_pasien');
+  const nama = localStorage.getItem('nama_pasien');
+  const email = localStorage.getItem('email_pasien');
+  const telp = localStorage.getItem('no_telp_pasien');
+  const alamat = localStorage.getItem('alamat_pasien');
+
+  const exMark = document.getElementById('exclamationMark');
+  const exMarkTop = document.getElementById('exclamationMarkTop');
+  const sidebarNama = document.getElementById('sidebarNama');
+  const sidebarDataDiri = document.getElementById('sidebarDataDiri');
+  const sidebarId = document.getElementById('sidebarId');
+  const sidebarEmail = document.getElementById('sidebarEmail');
+  const sidebarTelp = document.getElementById('sidebarTelp');
+  const sidebarAlamat = document.getElementById('sidebarAlamat');
+  const editBtn = document.getElementById('editProfileBtn');
+
+  // Jika ada salah satu data kosong, tampilkan tanda seru dan sembunyikan data
+  if (!id || !nama || !email || !telp || !alamat) {
+    if (exMark) exMark.style.display = "flex";
+    if (exMarkTop) exMarkTop.style.display = "flex";
+    if (sidebarNama) sidebarNama.textContent = "Nama Pengguna";
+    if (sidebarDataDiri) sidebarDataDiri.style.display = "none";
+    if (editBtn) editBtn.textContent = "Isi Data Diri";
+  } else {
+    if (exMark) exMark.style.display = "none";
+    if (exMarkTop) exMarkTop.style.display = "none";
+    if (sidebarNama) sidebarNama.textContent = nama;
+    if (sidebarId) sidebarId.textContent = id;
+    if (sidebarEmail) sidebarEmail.textContent = email;
+    if (sidebarTelp) sidebarTelp.textContent = telp;
+    if (sidebarAlamat) sidebarAlamat.textContent = alamat;
+    if (sidebarDataDiri) sidebarDataDiri.style.display = "block";
+    if (editBtn) editBtn.textContent = "Ubah Data Diri";
+  }
+}
+
+// Simpan data diri dari popup ke localStorage dan update sidebar
+function saveProfileData() {
+  const id = document.getElementById('id_pasien').value.trim();
+  const nama = document.getElementById('nama_pasien').value.trim();
+  const email = document.getElementById('email_pasien').value.trim();
+  const telp = document.getElementById('no_telp_pasien').value.trim();
+  const alamat = document.getElementById('alamat_pasien').value.trim();
+
+  if (!id || !nama || !email || !telp || !alamat) {
+    alert('Mohon lengkapi semua data diri.');
+    return;
+  }
+
+  localStorage.setItem('id_pasien', id);
+  localStorage.setItem('nama_pasien', nama);
+  localStorage.setItem('email_pasien', email);
+  localStorage.setItem('no_telp_pasien', telp);
+  localStorage.setItem('alamat_pasien', alamat);
+
+  closePopup('profilePopup');
+  updateSidebarProfile();
+  alert('Data diri berhasil disimpan!');
+}
+
+// Fungsi untuk menghapus data diri
+function deleteProfileData() {
+  if (confirm('Apakah Anda yakin ingin menghapus data diri?')) {
+    localStorage.removeItem('id_pasien');
+    localStorage.removeItem('nama_pasien');
+    localStorage.removeItem('email_pasien');
+    localStorage.removeItem('no_telp_pasien');
+    localStorage.removeItem('alamat_pasien');
+    closePopup('profilePopup');
+    updateSidebarProfile();
+    alert('Data diri berhasil dihapus.');
+  }
+}
+
+// Saat popup profile dibuka, isi field jika sudah ada data
+function fillProfilePopup() {
+  document.getElementById('id_pasien').value = localStorage.getItem('id_pasien') || '';
+  document.getElementById('nama_pasien').value = localStorage.getItem('nama_pasien') || '';
+  document.getElementById('email_pasien').value = localStorage.getItem('email_pasien') || '';
+  document.getElementById('no_telp_pasien').value = localStorage.getItem('no_telp_pasien') || '';
+  document.getElementById('alamat_pasien').value = localStorage.getItem('alamat_pasien') || '';
+}
+
+// Modifikasi openPopup khusus profilePopup
+const originalOpenPopup = window.openPopup;
+window.openPopup = function(id) {
+  if (id === 'profilePopup') fillProfilePopup();
+  if (typeof originalOpenPopup === 'function') {
+    originalOpenPopup(id);
+  }
+};
+
+// Panggil updateSidebarProfile saat halaman dimuat
+document.addEventListener('DOMContentLoaded', updateSidebarProfile);
