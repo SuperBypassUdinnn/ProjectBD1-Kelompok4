@@ -224,6 +224,175 @@ body {
   box-sizing: border-box;
 }
 
+/* Logout Button */
+.logout-btn {
+  margin-top: 2.5rem;
+  width: 100%;
+  padding: 0.85rem 0;
+  background: #5D5A88;
+  color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(93,90,136,0.08);
+  letter-spacing: 0.5px;
+}
+
+.logout-btn:hover {
+  background: #47446b;
+}
+
+/* Popup Booking - gunakan style yang konsisten dengan popup login/register */
+.popup {
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.popup.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popupInner {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(93,90,136,0.13);
+  padding: 32px 28px 24px 28px;
+  width: 90%;
+  max-width: 370px;
+  color: #5D5A88;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popup.open .popupInner {
+  transform: translateY(0);
+}
+
+.popupInner h3 {
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-align: center;
+  color: #5D5A88;
+}
+
+.form-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 1rem;
+  color: #5D5A88;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border: 1px solid #d1cfe9;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  background: #f9f9fc;
+  color: #333;
+  transition: border 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border: 1.5px solid #5D5A88;
+}
+
+.popup-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.popup-buttons button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  background: #5D5A88;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.popup-buttons button:last-child {
+  background: transparent;
+  color: #5D5A88;
+  border: 1px solid #5D5A88;
+}
+
+.popup-buttons button:hover {
+  opacity: 0.92;
+}
+
+/* Powered By Section */
+.powered-by {
+  position: fixed;
+  top: 22px;
+  right: 32px;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #ecebff;
+  border-radius: 2rem;
+  padding: 6px 18px 6px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  color: #5D5A88;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(93,90,136,0.07);
+  letter-spacing: 1px;
+}
+
+.powered-by img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .powered-by {
+    top: 10px;
+    right: 8px;
+    font-size: 0.85rem;
+    padding: 4px 10px 4px 8px;
+  }
+  .powered-by img {
+    height: 18px;
+  }
+}
+
 /* Responsive: 1 kolom di mobile */
 @media (max-width: 900px) {
   .card-container {

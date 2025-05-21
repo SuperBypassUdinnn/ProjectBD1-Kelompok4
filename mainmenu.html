@@ -1,95 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doctor App Section</title>
-    <link rel="stylesheet" href="stylemainmenu.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Sidebar Account Slide -->
-    <div id="sidebar" class="sidebar-slide">
-      <div class="sidebar-content">
-        <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
-        <div class="account-info">
-          <div class="avatar">
-            <svg
-              width="48"
-              height="48"
-              fill="none"
-              stroke="#5D5A88"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 16-4 16 0" />
-            </svg>
-          </div>
-          <h3>Nama Pengguna</h3>
-          <p>user@email.com</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor App Section</title>
+  <link rel="stylesheet" href="stylemainmenu.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="powered-by">
+    <span>POWERED BY</span>
+    <img src="images/logo.png" alt="Logo" />
+  </div>
+  <!-- Sidebar Account Slide -->
+  <div id="sidebar" class="sidebar-slide">
+    <div class="sidebar-content">
+      <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
+      <div class="account-info">
+        <div class="avatar">
+          <svg width="48" height="48" fill="none" stroke="#5D5A88" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 16-4 16 0"/>
+          </svg>
         </div>
+        <h3>Nama Pengguna</h3>
+        <p>keterangan</p>
+      </div>
+      <button class="logout-btn" onclick="logout()">Log Out</button>
+    </div>
+  </div>
+  <!-- Ikon Orang Kiri Atas -->
+  <button class="account-btn" onclick="toggleSidebar()" aria-label="Akun">
+    <svg width="28" height="28" fill="none" stroke="#5D5A88" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c0-4 16-4 16 0"/>
+    </svg>
+  </button>
+  <h1 class="mainmenu-title">MAIN MENU</h1>
+  <section class="bg-stethoscope">
+    <div class="overlay">
+      <div class="card-container">
+        
+        <!-- your reservation -->
+        <div class="card dark">
+          <h2>Reservasi Anda</h2>
+          <p>Lihat dan kelola jadwal konsultasi atau pemeriksaan yang sudah Anda pesan sebelumnya.</p>
+          <button class="btn-ios" onclick="openPopup('reservationPopup')">Lihat Reservasi</button>
+        </div>
+
+        <!-- book an apointment -->
+        <div class="card light">
+          <h2>Buat Janji Temu</h2>
+          <p>Pilih dokter dan waktu yang sesuai untuk konsultasi atau pemeriksaan secara online maupun offline.</p>
+          <button class="btn-android" onclick="openPopup('bookingPopup')">Buat Reservasi</button>
+        </div>
+
+        <!-- Consultation Box -->
+        <div class="card light">
+          <h2>Layanan Konsultasi</h2>
+          <p>Temui dokter terbaik melalui aplikasi kami dengan mudah dan cepat.</p>
+          <button class="btn-android" onclick="openPopup('consultationPopup')">Booking Sekarang</button>
+        </div>
+
+        <!-- Medical Info Box -->
+        <div class="card dark">
+          <h2>Informasi Medis</h2>
+          <p>Akses artikel dan informasi terpercaya seputar kesehatan.</p>
+          <button class="btn-ios" onclick="openPopup('infoPopup')">Baca Artikel</button>
+        </div>
+
       </div>
     </div>
-    <!-- Ikon Orang Kiri Atas -->
-    <button class="account-btn" onclick="toggleSidebar()" aria-label="Akun">
-      <svg
-        width="28"
-        height="28"
-        fill="none"
-        stroke="#5D5A88"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-      >
-        <circle cx="12" cy="8" r="4" />
-        <path d="M4 20c0-4 16-4 16 0" />
-      </svg>
-    </button>
-    <h1 class="mainmenu-title">Main Menu</h1>
-    <section class="bg-stethoscope">
-      <div class="overlay">
-        <div class="card-container">
-          <!-- iOS Box -->
-          <div class="card dark">
-            <h2>Download our app for iOS and iPadOS</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipiscing elit dolor
-              semper at ac tempus enim.
-            </p>
-            <button class="btn-ios"> Download for iOS</button>
-          </div>
+  </section>
 
-          <!-- Android Box -->
-          <div class="card light">
-            <h2>Download our app for Android</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipiscing elit dolor
-              semper at ac tempus enim.
-            </p>
-            <button class="btn-android">▶ Download for Android</button>
-          </div>
+  <!-- Popup Booking -->
+  <div class="popup" id="bookingPopup">
+    <div class="popupInner">
+      <h3>Buat Reservasi</h3>
+      <div class="form-group">
+        <label for="doctor">Pilih Dokter:</label>
+        <select id="doctor" name="doctor" required>
+          <option value="">-- Pilih Dokter --</option>
+          <option value="1">Dr. John Doe - Spesialis Jantung</option>
+          <option value="2">Dr. Jane Smith - Spesialis Anak</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="date">Tanggal:</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="form-group">
+        <label for="time">Jam:</label>
+        <input type="time" id="time" name="time" required>
+      </div>
+      <div class="popup-buttons">
+        <button onclick="submitBooking()">Book Appointment</button>
+        <button onclick="closePopup('bookingPopup')">Tutup</button>
+      </div>
+    </div>
+  </div>
 
-          <!-- Consultation Box -->
-          <div class="card light">
-            <h2>Layanan Konsultasi</h2>
-            <p>
-              Temui dokter terbaik melalui aplikasi kami dengan mudah dan cepat.
-            </p>
-            <button class="btn-android">Booking Sekarang</button>
-          </div>
-
-          <!-- Medical Info Box -->
-          <div class="card dark">
-            <h2>Informasi Medis</h2>
-            <p>Akses artikel dan informasi terpercaya seputar kesehatan.</p>
-            <button class="btn-ios">Baca Artikel</button>
-          </div>
+  <!-- Popup Reservasi Anda -->
+  <div class="popup" id="reservationPopup">
+    <div class="popupInner">
+      <h3>Reservasi Anda</h3>
+      <div class="form-group">
+        <label>Jadwal Konsultasi Terdekat:</label>
+        <div style="background:#ecebff;padding:10px;border-radius:6px;color:#5D5A88;">
+          <strong>Dr. John Doe</strong><br>
+          22 Mei 2025, 09:00 WIB<br>
+          Status: <span style="color:green;font-weight:600;">Terkonfirmasi</span>
         </div>
       </div>
-    </section>
-    <script src="script.js"></script>
-  </body>
+      <div class="popup-buttons">
+        <button onclick="closePopup('reservationPopup')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Konsultasi -->
+  <div class="popup" id="consultationPopup">
+    <div class="popupInner">
+      <h3>Layanan Konsultasi</h3>
+      <div class="form-group">
+        <label>Pilih Jenis Konsultasi:</label>
+        <select>
+          <option value="">-- Pilih Layanan --</option>
+          <option value="online">Konsultasi Online</option>
+          <option value="offline">Konsultasi Tatap Muka</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="consultationQuestion">Pertanyaan untuk Dokter:</label>
+        <textarea id="consultationQuestion" rows="3" placeholder="Tulis pertanyaan Anda..." style="width:100%;border-radius:6px;border:1px solid #d1cfe9;padding:10px;"></textarea>
+      </div>
+      <div class="popup-buttons">
+        <button onclick="alert('Pertanyaan konsultasi Anda telah dikirim!');closePopup('consultationPopup')">Kirim Pertanyaan</button>
+        <button onclick="closePopup('consultationPopup')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Informasi Medis -->
+  <div class="popup" id="infoPopup">
+    <div class="popupInner">
+      <h3>Informasi Medis</h3>
+      <div class="form-group">
+        <label>Artikel Terbaru:</label>
+        <ul style="padding-left:18px;margin:0;">
+          <li><a href="#" style="color:#5D5A88;text-decoration:underline;">Tips Menjaga Kesehatan Jantung</a></li>
+          <li><a href="#" style="color:#5D5A88;text-decoration:underline;">Panduan Pola Hidup Sehat</a></li>
+          <li><a href="#" style="color:#5D5A88;text-decoration:underline;">Vaksinasi dan Imunisasi Anak</a></li>
+        </ul>
+      </div>
+      <div class="popup-buttons">
+        <button onclick="closePopup('infoPopup')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
