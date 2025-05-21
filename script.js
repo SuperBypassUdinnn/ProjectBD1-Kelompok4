@@ -34,9 +34,9 @@ function handleLogin() {
   }
 
   // Contoh validasi statis (ganti dengan validasi sebenarnya)
-  if (email === "admin@example.com" && password === "admin123") {
+  if (email === "admin" && password === "admin123") {
     // Jika sukses:
-    window.location.href = "dashboard.html";
+    window.location.href = "mainmenu.html";
   } else {
     alert("Email atau password salah");
   }
