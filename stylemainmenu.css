@@ -1,0 +1,261 @@
+/* Importing font */
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Background section */
+.bg-stethoscope {
+  background-image: url('images/stethoscope.jpg'); /* adjust path as needed */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(93, 90, 136, 0.5); /* #5D5A88 with 50% opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1.5rem;
+}
+
+/* Card container */
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem 2.5rem;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 110px; /* beri jarak dari mainmenu-title */
+}
+
+/* Card styles */
+.card {
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  min-height: 210px;
+  height: 210px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card.dark {
+  background-color: #5D5A88;
+  color: #fff;
+}
+
+.card.light {
+  background-color: #fff;
+  color: #5D5A88;
+  border: 1px solid #bcb9d6;
+}
+
+.card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.card p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* Buttons */
+.btn-ios,
+.btn-android {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.card.dark .btn-ios,
+.card.dark .btn-android {
+  background-color: #FFFFFF;
+  color: #5D5A88;
+}
+
+.card.light .btn-ios,
+.card.light .btn-android {
+  background-color: #5D5A88;
+  color: #FFFFFF;
+}
+
+.btn-ios:hover,
+.btn-android:hover {
+  opacity: 0.85;
+}
+
+/* Sidebar Slide Account */
+.sidebar-slide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 320px;
+  max-width: 90vw;
+  height: 100vh;
+  background: #fff;
+  box-shadow: 2px 0 24px rgba(93,90,136,0.10);
+  z-index: 2000;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(.77,0,.18,1);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-slide.open {
+  transform: translateX(0);
+}
+
+.sidebar-content {
+  padding: 2rem 1.5rem 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.close-sidebar {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #5D5A88;
+  align-self: flex-end;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+
+.close-sidebar:hover {
+  color: #3a3860;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.account-info .avatar {
+  background: #ecebff;
+  border-radius: 50%;
+  padding: 12px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-info h3 {
+  color: #5D5A88;
+  margin: 0 0 0.3rem 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.account-info p {
+  color: #888;
+  font-size: 0.98rem;
+  margin: 0;
+}
+
+/* Ikon Orang Kiri Atas */
+.account-btn {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 1500; /* DITURUNKAN agar sidebar menimpa tombol */
+  background: #fff;
+  border: 1.5px solid #ecebff;
+  border-radius: 50%;
+  padding: 7px;
+  box-shadow: 0 2px 8px rgba(93,90,136,0.07);
+  cursor: pointer;
+  transition: box-shadow 0.2s, border 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-btn:hover {
+  box-shadow: 0 4px 16px rgba(93,90,136,0.13);
+  border: 1.5px solid #5D5A88;
+}
+
+/* Main Menu Title - style seperti gambar */
+.mainmenu-title {
+  position: fixed;
+  top: 32px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 220px;
+  text-align: center;
+  color: #5D5A88;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  z-index: 1200;
+  pointer-events: none;
+  user-select: none;
+  font-family: 'DM Sans', sans-serif;
+  background: #fff;
+  border: 1px solid #d1cfe9;
+  border-radius: 2rem;
+  padding: 0.5rem 0;
+  box-sizing: border-box;
+}
+
+/* Responsive: 1 kolom di mobile */
+@media (max-width: 900px) {
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 90px;
+  }
+  .mainmenu-title {
+    top: 18px;
+    font-size: 1.2rem;
+    width: 140px;
+    padding: 0.4rem 0;
+  }
+  .card {
+    min-height: 160px;
+    height: 160px;
+    padding: 1.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainmenu-title {
+    font-size: 1.3rem;
+    top: 14px;
+  }
+  .sidebar-slide {
+    width: 90vw;
+    max-width: 98vw;
+  }
+  .account-btn {
+    top: 10px;
+    left: 10px;
+    padding: 4px;
+  }
+}
