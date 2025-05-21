@@ -1,12 +1,12 @@
 /* Importing font */
 body {
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 
 /* Background section */
 .bg-stethoscope {
-  background-image: url('images/stethoscope.jpg'); /* adjust path as needed */
+  background-image: url("images/stethoscope.jpg"); /* adjust path as needed */
   background-size: cover;
   background-position: center;
   position: relative;
@@ -53,13 +53,13 @@ body {
 }
 
 .card.dark {
-  background-color: #5D5A88;
+  background-color: #5d5a88;
   color: #fff;
 }
 
 .card.light {
   background-color: #fff;
-  color: #5D5A88;
+  color: #5d5a88;
   border: 1px solid #bcb9d6;
 }
 
@@ -82,20 +82,20 @@ body {
   font-weight: bold;
   border: none;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   transition: background-color 0.3s ease;
 }
 
 .card.dark .btn-ios,
 .card.dark .btn-android {
-  background-color: #FFFFFF;
-  color: #5D5A88;
+  background-color: #ffffff;
+  color: #5d5a88;
 }
 
 .card.light .btn-ios,
 .card.light .btn-android {
-  background-color: #5D5A88;
-  color: #FFFFFF;
+  background-color: #5d5a88;
+  color: #ffffff;
 }
 
 .btn-ios:hover,
@@ -112,10 +112,10 @@ body {
   max-width: 90vw;
   height: 100vh;
   background: #fff;
-  box-shadow: 2px 0 24px rgba(93,90,136,0.10);
+  box-shadow: 2px 0 24px rgba(93, 90, 136, 0.1);
   z-index: 2000;
   transform: translateX(-100%);
-  transition: transform 0.35s cubic-bezier(.77,0,.18,1);
+  transition: transform 0.35s cubic-bezier(0.77, 0, 0.18, 1);
   display: flex;
   flex-direction: column;
 }
@@ -136,7 +136,7 @@ body {
   background: none;
   border: none;
   font-size: 2rem;
-  color: #5D5A88;
+  color: #5d5a88;
   align-self: flex-end;
   cursor: pointer;
   margin-bottom: 1.5rem;
@@ -165,7 +165,7 @@ body {
 }
 
 .account-info h3 {
-  color: #5D5A88;
+  color: #5d5a88;
   margin: 0 0 0.3rem 0;
   font-size: 1.2rem;
   font-weight: 700;
@@ -187,7 +187,7 @@ body {
   border: 1.5px solid #ecebff;
   border-radius: 50%;
   padding: 7px;
-  box-shadow: 0 2px 8px rgba(93,90,136,0.07);
+  box-shadow: 0 2px 8px rgba(93, 90, 136, 0.07);
   cursor: pointer;
   transition: box-shadow 0.2s, border 0.2s;
   display: flex;
@@ -196,8 +196,8 @@ body {
 }
 
 .account-btn:hover {
-  box-shadow: 0 4px 16px rgba(93,90,136,0.13);
-  border: 1.5px solid #5D5A88;
+  box-shadow: 0 4px 16px rgba(93, 90, 136, 0.13);
+  border: 1.5px solid #5d5a88;
 }
 
 /* Main Menu Title - style seperti gambar */
@@ -209,14 +209,14 @@ body {
   margin: 0 auto;
   width: 220px;
   text-align: center;
-  color: #5D5A88;
+  color: #5d5a88;
   font-size: 2rem;
   font-weight: 400;
   letter-spacing: 1px;
   z-index: 1200;
   pointer-events: none;
   user-select: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   background: #fff;
   border: 1px solid #d1cfe9;
   border-radius: 2rem;
@@ -229,7 +229,7 @@ body {
   margin-top: 2.5rem;
   width: 100%;
   padding: 0.85rem 0;
-  background: #5D5A88;
+  background: #5d5a88;
   color: #fff;
   border: none;
   border-radius: 1.5rem;
@@ -237,7 +237,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
-  box-shadow: 0 2px 8px rgba(93,90,136,0.08);
+  box-shadow: 0 2px 8px rgba(93, 90, 136, 0.08);
   letter-spacing: 0.5px;
 }
 
@@ -250,7 +250,10 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   transition: opacity 0.3s ease-in-out;
   z-index: 3000;
   display: flex;
@@ -267,11 +270,11 @@ body {
 .popupInner {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(93,90,136,0.13);
+  box-shadow: 0 4px 24px rgba(93, 90, 136, 0.13);
   padding: 32px 28px 24px 28px;
   width: 90%;
   max-width: 370px;
-  color: #5D5A88;
+  color: #5d5a88;
   position: relative;
   transform: translateY(20px);
   transition: transform 0.3s;
@@ -289,7 +292,7 @@ body {
   font-size: 1.4rem;
   font-weight: bold;
   text-align: center;
-  color: #5D5A88;
+  color: #5d5a88;
 }
 
 .form-group {
@@ -301,7 +304,7 @@ body {
 
 .form-group label {
   font-size: 1rem;
-  color: #5D5A88;
+  color: #5d5a88;
   font-weight: 500;
 }
 
@@ -311,7 +314,7 @@ body {
   border: 1px solid #d1cfe9;
   border-radius: 6px;
   font-size: 1rem;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   background: #f9f9fc;
   color: #333;
   transition: border 0.2s;
@@ -320,7 +323,7 @@ body {
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border: 1.5px solid #5D5A88;
+  border: 1.5px solid #5d5a88;
 }
 
 .popup-buttons {
@@ -339,15 +342,15 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   border: none;
-  background: #5D5A88;
+  background: #5d5a88;
   color: #fff;
   letter-spacing: 0.5px;
 }
 
 .popup-buttons button:last-child {
   background: transparent;
-  color: #5D5A88;
-  border: 1px solid #5D5A88;
+  color: #5d5a88;
+  border: 1px solid #5d5a88;
 }
 
 .popup-buttons button:hover {
@@ -367,11 +370,11 @@ body {
   border: 1px solid #ecebff;
   border-radius: 2rem;
   padding: 6px 18px 6px 14px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: 1rem;
-  color: #5D5A88;
+  color: #5d5a88;
   font-weight: 500;
-  box-shadow: 0 2px 8px rgba(93,90,136,0.07);
+  box-shadow: 0 2px 8px rgba(93, 90, 136, 0.07);
   letter-spacing: 1px;
 }
 
