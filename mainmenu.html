@@ -17,20 +17,42 @@
     <div class="sidebar-content">
       <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
       <div class="account-info">
-        <div class="avatar">
+        <div class="avatar" id="avatarContainer" style="position:relative;">
           <svg width="48" height="48" fill="none" stroke="#5D5A88" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="8" r="4"/>
             <path d="M4 20c0-4 16-4 16 0"/>
           </svg>
+          <span id="exclamationMark" style="display:none;position:absolute;bottom:0;right:0;width:20px;height:20px;background:#e74c3c;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="10" fill="#e74c3c"/>
+              <text x="10" y="15" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial" font-weight="bold">!</text>
+            </svg>
+          </span>
         </div>
-        <h3>Nama Pengguna</h3>
-        <p>keterangan</p>
+        <h3 id="sidebarNama">Nama Pengguna</h3>
+        <div id="sidebarDataDiri" style="font-size:0.98rem;color:#888;margin-bottom:8px;display:none;">
+          <div><b>ID:</b> <span id="sidebarId"></span></div>
+          <div><b>Email:</b> <span id="sidebarEmail"></span></div>
+          <div><b>No. Telp:</b> <span id="sidebarTelp"></span></div>
+          <div><b>Alamat:</b> <span id="sidebarAlamat"></span></div>
+        </div>
+        <p class="edit-profile-btn" id="editProfileBtn"
+           onclick="openPopup('profilePopup')"
+           style="cursor:pointer;color:#5D5A88;text-decoration:underline;margin:0;">
+          Isi Data Diri
+        </p>
       </div>
       <button class="logout-btn" onclick="logout()">Log Out</button>
     </div>
   </div>
   <!-- Ikon Orang Kiri Atas -->
-  <button class="account-btn" onclick="toggleSidebar()" aria-label="Akun">
+  <button class="account-btn" onclick="toggleSidebar()" aria-label="Akun" style="position:fixed;">
+    <span id="exclamationMarkTop" style="display:none;position:absolute;bottom:0;right:0;width:18px;height:18px;background:#e74c3c;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;">
+      <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="10" fill="#e74c3c"/>
+        <text x="10" y="15" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial" font-weight="bold">!</text>
+      </svg>
+    </span>
     <svg width="28" height="28" fill="none" stroke="#5D5A88" stroke-width="2" viewBox="0 0 24 24">
       <circle cx="12" cy="8" r="4"/>
       <path d="M4 20c0-4 16-4 16 0"/>
@@ -155,6 +177,38 @@
       </div>
       <div class="popup-buttons">
         <button onclick="closePopup('infoPopup')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Isi Data Diri -->
+  <div class="popup" id="profilePopup">
+    <div class="popupInner">
+      <h3>Isi Data Diri Pasien</h3>
+      <div class="form-group">
+        <label for="id_pasien">ID Pasien</label>
+        <input type="text" id="id_pasien" placeholder="ID Pasien" required>
+      </div>
+      <div class="form-group">
+        <label for="nama_pasien">Nama Pasien</label>
+        <input type="text" id="nama_pasien" placeholder="Nama Lengkap" required>
+      </div>
+      <div class="form-group">
+        <label for="email_pasien">Email</label>
+        <input type="email" id="email_pasien" placeholder="Email" required>
+      </div>
+      <div class="form-group">
+        <label for="no_telp_pasien">No. Telepon</label>
+        <input type="tel" id="no_telp_pasien" placeholder="Nomor Telepon" required>
+      </div>
+      <div class="form-group">
+        <label for="alamat_pasien">Alamat</label>
+        <input type="text" id="alamat_pasien" placeholder="Alamat" required>
+      </div>
+      <div class="popup-buttons">
+        <button onclick="saveProfileData()">Simpan</button>
+        <button onclick="deleteProfileData()">Hapus Data</button>
+        <button onclick="closePopup('profilePopup')">Tutup</button>
       </div>
     </div>
   </div>
