@@ -24,21 +24,21 @@ function closePopup(id) {
 
 // Fungsi untuk validasi login
 function handleLogin() {
-  const email = document.getElementById("loginUser").value.trim();
-  const password = document.getElementById("loginPass").value.trim();
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value.trim();
 
   // Validasi sederhana
-  if (!email || !password) {
-    alert("Silakan isi email dan password");
+  if (!username || !password) {
+    alert("Silakan isi username dan password");
     return;
   }
 
   // Contoh validasi statis (ganti dengan validasi sebenarnya)
-  if (email === "admin@example.com" && password === "admin123") {
+  if (username === "admin" && password === "admin123") {
     // Jika sukses:
-    window.location.href = "dashboard.html";
+    window.location.href = "mainmenu.html";
   } else {
-    alert("Email atau password salah");
+    alert("Username atau password salah");
   }
 }
 
@@ -171,3 +171,23 @@ document.addEventListener("click", function (e) {
     toggleSidebar();
   }
 });
+
+// Tambahkan di script.js
+function logout() {
+  window.location.href = "index.html";
+}
+
+function submitBooking() {
+  // Ambil data form
+  const doctor = document.getElementById('doctor').value;
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('time').value;
+
+  if (!doctor || !date || !time) {
+    alert('Mohon lengkapi semua data reservasi.');
+    return;
+  }
+
+  alert('Reservasi berhasil!\nDokter: ' + doctor + '\nTanggal: ' + date + '\nJam: ' + time);
+  closePopup('bookingPopup');
+}
