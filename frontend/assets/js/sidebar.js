@@ -35,7 +35,7 @@ function logout() {
 }
 
 function updateSidebarProfile() {
-  const id = localStorage.getItem("id_pasien");
+  const nik = localStorage.getItem("nik_pasien");
   const nama = localStorage.getItem("nama_pasien");
   const email = localStorage.getItem("email_pasien");
   const telp = localStorage.getItem("no_telp_pasien");
@@ -51,7 +51,7 @@ function updateSidebarProfile() {
   const sidebarAlamat = document.getElementById("sidebarAlamat");
   const editBtn = document.getElementById("editProfileBtn");
 
-  if (!id || !nama || !email || !telp || !alamat) {
+  if (!nik || !nama || !email || !telp || !alamat) {
     if (exMark) exMark.style.display = "flex";
     if (exMarkTop) exMarkTop.style.display = "flex";
     if (sidebarNama) sidebarNama.textContent = "Nama Pengguna";
@@ -61,7 +61,7 @@ function updateSidebarProfile() {
     if (exMark) exMark.style.display = "none";
     if (exMarkTop) exMarkTop.style.display = "none";
     if (sidebarNama) sidebarNama.textContent = nama;
-    if (sidebarId) sidebarId.textContent = id;
+    if (sidebarId) sidebarId.textContent = nik;
     if (sidebarEmail) sidebarEmail.textContent = email;
     if (sidebarTelp) sidebarTelp.textContent = telp;
     if (sidebarAlamat) sidebarAlamat.textContent = alamat;
@@ -71,18 +71,18 @@ function updateSidebarProfile() {
 }
 
 function saveProfileData() {
-  const id = document.getElementById("id_pasien").value.trim();
+  const nik = document.getElementById("nik_pasien").value.trim();
   const nama = document.getElementById("nama_pasien").value.trim();
   const email = document.getElementById("email_pasien").value.trim();
   const telp = document.getElementById("no_telp_pasien").value.trim();
   const alamat = document.getElementById("alamat_pasien").value.trim();
 
-  if (!id || !nama || !email || !telp || !alamat) {
+  if (!nik || !nama || !email || !telp || !alamat) {
     alert("Mohon lengkapi semua data diri.");
     return;
   }
 
-  localStorage.setItem("id_pasien", id);
+  localStorage.setItem("nik_pasien", nik);
   localStorage.setItem("nama_pasien", nama);
   localStorage.setItem("email_pasien", email);
   localStorage.setItem("no_telp_pasien", telp);
@@ -94,8 +94,8 @@ function saveProfileData() {
 }
 
 function fillProfilePopup() {
-  document.getElementById("id_pasien").value =
-    localStorage.getItem("id_pasien") || "";
+  document.getElementById("nik_pasien").value =
+    localStorage.getItem("nik_pasien") || "";
   document.getElementById("nama_pasien").value =
     localStorage.getItem("nama_pasien") || "";
   document.getElementById("email_pasien").value =
