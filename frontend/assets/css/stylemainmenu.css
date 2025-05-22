@@ -6,7 +6,7 @@ body {
 
 /* Background section */
 .bg-stethoscope {
-  background-image: url("images/stethoscope.jpg"); /* adjust path as needed */
+  background-image: url("../images/stethoscope.jpg"); /* adjust path as needed */
   background-size: cover;
   background-position: center;
   position: relative;
