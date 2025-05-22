@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservasi Dokter Online</title>
+    <link rel="stylesheet" href="styelIndex.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="navbar container">
+        <div class="logo">
+          <span>POWERED BY</span>
+          <img src="images/logo.png" alt="Logo" />
+        </div>
+        <nav>
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <button class="login-btn" onclick="openPopup('loginPopup')">
+            Login
+          </button>
+          <button class="register-btn" onclick="openPopup('registerPopup')">
+            Register
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="overlay"></div>
+      <img src="images/surgery.jpg" alt="Surgery" class="bg-image" />
+      <div class="hero-content right">
+        <h1>RESERVASI DOKTER ONLINE</h1>
+        <p>
+          Buat reservasi dokter dengan mudah, cepat, dan aman. Dapatkan layanan
+          konsultasi kesehatan terbaik secara online.
+        </p>
+      </div>
+    </section>
+
+    <!-- Ganti bagian popup dengan ini -->
+    <div class="popup" id="loginPopup">
+      <div class="popupInner">
+        <h3>Log in</h3>
+        <div class="form-group">
+          <label for="loginUser">Username</label>
+          <div class="input-wrapper">
+            <input
+              type="username"
+              id="loginUser"
+              placeholder="Username"
+              required
+            />
+          </div>
+        </div>
+        <!-- Form Password -->
+        <div class="form-group">
+          <label for="loginPass">Password</label>
+          <div class="password-input-wrapper">
+            <input
+              type="password"
+              id="loginPass"
+              placeholder="Password"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePassword('loginPass', this)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="popup-buttons">
+          <button onclick="handleLogin()">Log in</button>
+          <button onclick="closePopup('loginPopup')">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup" id="registerPopup">
+      <div class="popupInner">
+        <h3>Register</h3>
+        <div class="form-group">
+          <label for="regUser">Username</label>
+          <div class="input-wrapper">
+            <input
+              type="username"
+              id="regUser"
+              placeholder="Masukkan username"
+              required
+            />
+          </div>
+        </div>
+        <!-- Form Password -->
+        <div class="form-group">
+          <label for="regPass">Password</label>
+          <div class="password-input-wrapper">
+            <input
+              type="password"
+              id="regPass"
+              placeholder="Minimal 6 karakter"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePassword('regPass', this)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Konfirmasi password -->
+        <div class="form-group">
+          <label for="regPassConfirm">Konfirmasi Password</label>
+          <div class="password-input-wrapper">
+            <input
+              type="password"
+              id="regPassConfirm"
+              placeholder="Ulangi password"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePassword('regPassConfirm', this)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="popup-buttons">
+          <button onclick="handleRegister()">Register</button>
+          <button onclick="closePopup('registerPopup')">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>
