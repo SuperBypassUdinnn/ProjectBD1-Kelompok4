@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Isi Data Diri Pasien</title>
+  <link rel="stylesheet" href="assets/css/stylemainmenu.css" />
+</head>
+<body>
+  <div class="popupInner" style="max-width: 400px; margin: 40px auto;">
+    <h3>Isi Data Diri Pasien</h3>
+    <div class="form-group">
+      <label for="id_pasien">NIK</label>
+      <input type="text" id="id_pasien" placeholder="Masukkan 16 digit" required />
+    </div>
+    <div class="form-group">
+      <label for="nama_pasien">Nama Pasien</label>
+      <input type="text" id="nama_pasien" placeholder="Nama Lengkap" required />
+    </div>
+    <div class="form-group">
+      <label for="email_pasien">Email</label>
+      <input type="email" id="email_pasien" placeholder="Email" required />
+    </div>
+    <div class="form-group">
+      <label for="no_telp_pasien">No. Telepon</label>
+      <input type="tel" id="no_telp_pasien" placeholder="Nomor Telepon" required />
+    </div>
+    <div class="form-group">
+      <label for="alamat_pasien">Alamat</label>
+      <input type="text" id="alamat_pasien" placeholder="Alamat" required />
+    </div>
+    <div class="popup-buttons">
+      <button onclick="saveProfileData()">Simpan</button>
+    </div>
+  </div>
+  <script>
+function saveProfileData() {
+  const data = {
+    nik: document.getElementById('id_pasien').value,
+    nama: document.getElementById('nama_pasien').value,
+    email: document.getElementById('email_pasien').value,
+    telp: document.getElementById('no_telp_pasien').value,
+    alamat: document.getElementById('alamat_pasien').value
+  };
+  localStorage.setItem('profileData', JSON.stringify(data));
+  window.location.href = "mainmenu.html";
+}
+
+// Prefill data jika ada
+window.onload = function() {
+  const data = JSON.parse(localStorage.getItem('profileData'));
+  if (data) {
+    document.getElementById('id_pasien').value = data.nik || '';
+    document.getElementById('nama_pasien').value = data.nama || '';
+    document.getElementById('email_pasien').value = data.email || '';
+    document.getElementById('no_telp_pasien').value = data.telp || '';
+    document.getElementById('alamat_pasien').value = data.alamat || '';
+  }
+}
+</script>
+</body>
+</html>
