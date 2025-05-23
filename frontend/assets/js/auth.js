@@ -34,6 +34,7 @@ function handleRegister() {
     return;
   }
 
-  alert("Registrasi berhasil! Silakan login");
+  alert("Registrasi berhasil! Silakan isi data diri Anda");
   closePopup("registerPopup");
+  window.location.href = "form.html";
 }
