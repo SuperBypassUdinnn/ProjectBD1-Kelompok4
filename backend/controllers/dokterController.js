@@ -1,7 +1,5 @@
 import db from "../db.js";
-import { customAlphabet } from "nanoid";
-
-const generateId = customAlphabet("0123456789", 19);
+import { generateId } from "../utils/generateId.js";
 
 const dokterController = {
   // Get all dokter
@@ -50,7 +48,7 @@ const dokterController = {
   createDokter: async (req, res) => {
     const { nama_dokter, no_telp_dokter, id_spesialis } = req.body;
     try {
-      const dokterId = `D${generateId()}`;
+      const dokterId = `${generateId("DOK", 4)}`;
       await db.query("INSERT INTO dokter VALUES (?, ?, ?, ?)", [
         dokterId,
         nama_dokter,

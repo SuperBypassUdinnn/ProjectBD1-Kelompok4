@@ -1,7 +1,5 @@
 import db from "../db.js";
-import { customAlphabet } from "nanoid";
-
-const generateId = customAlphabet("0123456789", 19);
+import { generateId } from "../utils/generateId.js";
 
 const akunController = {
   // Get all akun
@@ -35,16 +33,15 @@ const akunController = {
 
   // Create a new akun
   createAkun: async (req, res) => {
-    const { username, password, nik } = req.body;
+    const { username, password } = req.body;
     try {
-      const akunId = `A${generateId()}`;
-      await db.query("INSERT INTO akun VALUES (?, ?, ?, ?)", [
+      const akunId = `${generateId("AC", 4)}`;
+      await db.query("INSERT INTO akun VALUES (?, ?, ?)", [
         akunId,
         username,
         password,
-        nik,
       ]);
-      res.status(201).json({ id_akun: akunId, username, password, nik });
+      res.status(201).json({ id_akun: akunId, username, password });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
@@ -100,20 +97,23 @@ const akunController = {
   // Register akun
   register: async (req, res) => {
     const { username, password } = req.body;
-    // Validasi username unik
-    const [exist] = await db.query("SELECT * FROM akun WHERE username = ?", [
-      username,
-    ]);
-    if (exist.length > 0) {
-      return res.status(400).json({ message: "Username sudah terdaftar" });
+    try {
+      const [exist] = await db.query("SELECT * FROM akun WHERE username = ?", [
+        username,
+      ]);
+      if (exist.length > 0) {
+        return res.status(400).json({ message: "Username sudah terdaftar" });
+      }
+      const id_akun = generateId("AC", 4);
+      await db.query(
+        "INSERT INTO akun (id_akun, username, password) VALUES (?, ?, ?)",
+        [id_akun, username, password]
+      );
+      res.json({ success: true });
+    } catch (err) {
+      console.error("REGISTER ERROR:", err); // Tambahkan log detail
+      res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
-    // Buat id_akun unik
-    const id_akun = "A" + Math.floor(Math.random() * 10000);
-    await db.query(
-      "INSERT INTO akun (id_akun, username, password) VALUES (?, ?, ?)",
-      [id_akun, username, password]
-    );
-    res.json({ success: true });
   },
 };
 
