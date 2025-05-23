@@ -10,11 +10,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// HELLOO routes
-app.get("/api/hello", (req, res) => {
-  res.send("HELLOO");
-});
-
 // Routes
 app.use("/api/akun", akunRoutes);
 app.use("/api/dokter", dokterRoutes);
