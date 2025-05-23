@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doctor App Section</title>
-    <link rel="stylesheet" href="./assets/css/stylemainmenu.css" />
+    <link rel="stylesheet" href="assets/css/stylemainmenu.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap"
       rel="stylesheet"
@@ -17,83 +17,41 @@
     </div>
     <!-- Sidebar Account Slide -->
     <div id="sidebar" class="sidebar-slide">
-      <div class="sidebar-content">
+      <div class="sidebar-content" style="padding:0;">
         <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
-        <div class="account-info">
-          <div class="avatar" id="avatarContainer" style="position: relative">
-            <svg
-              width="48"
-              height="48"
-              fill="none"
-              stroke="#5D5A88"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
+        <div class="account-info" style="width:100%;padding:0;">
+          <div style="background:#ecebff;border-radius:50%;width:90px;height:90px;display:flex;align-items:center;justify-content:center;margin:24px auto 12px auto;">
+            <svg width="48" height="48" fill="none" stroke="#5D5A88" stroke-width="2" viewBox="0 0 24 24">
               <circle cx="12" cy="8" r="4" />
               <path d="M4 20c0-4 16-4 16 0" />
             </svg>
-            <span
-              id="exclamationMark"
-              style="
-                display: none;
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                width: 20px;
-                height: 20px;
-                background: #e74c3c;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-              "
-            >
-              <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                <circle cx="10" cy="10" r="10" fill="#e74c3c" />
-                <text
-                  x="10"
-                  y="15"
-                  text-anchor="middle"
-                  font-size="14"
-                  fill="#fff"
-                  font-family="Arial"
-                  font-weight="bold"
-                >
-                  !
-                </text>
-              </svg>
-            </span>
           </div>
-          <h3 id="sidebarNama">Nama Pengguna</h3>
-          <div
-            id="sidebarDataDiri"
-            style="
-              font-size: 0.98rem;
-              color: #888;
-              margin-bottom: 8px;
-              display: none;
-            "
-          >
-            <div><b>ID:</b> <span id="sidebarId"></span></div>
-            <div><b>Email:</b> <span id="sidebarEmail"></span></div>
-            <div><b>No. Telp:</b> <span id="sidebarTelp"></span></div>
-            <div><b>Alamat:</b> <span id="sidebarAlamat"></span></div>
+          <div style="width:100%;background:#5d5a88;color:#fff;text-align:center;padding:10px 0 8px 0;font-weight:700;font-size:1.1rem;letter-spacing:1px;border-radius:0 0 0 0;">
+            <span id="sidebarNama">NAMA PENGGUNA</span>
           </div>
-          <p
-            class="edit-profile-btn"
-            id="editProfileBtn"
-            onclick="openPopup('profilePopup')"
-            style="
-              cursor: pointer;
-              color: #5d5a88;
-              text-decoration: underline;
-              margin: 0;
-            "
-          >
-            Isi Data Diri
-          </p>
+          <div style="width:100%;margin-top:0;">
+            <table style="width:100%;border-collapse:collapse;margin:0;">
+              <tr style="border-bottom:1px solid #ecebff;">
+                <td style="padding:10px 0 10px 18px;width:36%;color:#5d5a88;font-weight:500;">NIK</td>
+                <td style="padding:10px 12px;color:#5d5a88;">: <span id="sidebarNIK">-</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #ecebff;">
+                <td style="padding:10px 0 10px 18px;color:#5d5a88;font-weight:500;">Email</td>
+                <td style="padding:10px 12px;color:#5d5a88;">: <span id="sidebarEmail">-</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #ecebff;">
+                <td style="padding:10px 0 10px 18px;color:#5d5a88;font-weight:500;">Contact</td>
+                <td style="padding:10px 12px;color:#5d5a88;">: <span id="sidebarTelp">-</span></td>
+              </tr>
+              <tr>
+                <td style="padding:10px 0 10px 18px;color:#5d5a88;font-weight:500;">Alamat</td>
+                <td style="padding:10px 12px;color:#5d5a88;">: <span id="sidebarAlamat">-</span></td>
+              </tr>
+            </table>
+          </div>
+          <button style="margin:28px 0 10px 0;width:90%;border:1.5px solid #5d5a88;background:#fff;color:#5d5a88;font-weight:600;font-size:1rem;border-radius:2rem;padding:12px;cursor:pointer;transition:all 0.2s;" onclick="window.location.href='form.html'">Ubah Data Diri</button>
+          <button class="logout-btn" style="margin-top:0;width:90%;" onclick="logout()">Log Out</button>
         </div>
-        <button class="logout-btn" onclick="logout()">Log Out</button>
       </div>
     </div>
     <!-- Ikon Orang Kiri Atas -->
@@ -103,38 +61,6 @@
       aria-label="Akun"
       style="position: fixed"
     >
-      <span
-        id="exclamationMarkTop"
-        style="
-          display: none;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          width: 18px;
-          height: 18px;
-          background: #e74c3c;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 2;
-        "
-      >
-        <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
-          <circle cx="10" cy="10" r="10" fill="#e74c3c" />
-          <text
-            x="10"
-            y="15"
-            text-anchor="middle"
-            font-size="12"
-            fill="#fff"
-            font-family="Arial"
-            font-weight="bold"
-          >
-            !
-          </text>
-        </svg>
-      </span>
       <svg
         width="28"
         height="28"
@@ -206,27 +132,85 @@
       <div class="popupInner">
         <h3>Buat Reservasi</h3>
         <div class="form-group">
-          <label for="doctor">Pilih Dokter:</label>
-          <select id="doctor" name="doctor" required>
-            <option value="">-- Pilih Dokter --</option>
-            <option value="1">Dr. John Doe - Spesialis Jantung</option>
-            <option value="2">Dr. Jane Smith - Spesialis Anak</option>
+          <label for="spesialis">Spesialis Dokter:</label>
+          <select id="spesialis" required onchange="updateDokterList()">
+            <option value="">-- Pilih Spesialis --</option>
+            <option value="jantung">Jantung</option>
+            <option value="anak">Anak</option>
+            <option value="umum">Umum</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="date">Tanggal:</label>
-          <input type="date" id="date" name="date" required />
+          <label for="dokter">Pilih Dokter:</label>
+          <select id="dokter" required>
+            <option value="">-- Pilih Dokter --</option>
+          </select>
         </div>
         <div class="form-group">
-          <label for="time">Jam:</label>
-          <input type="time" id="time" name="time" required />
+          <label for="hari">Hari:</label>
+          <select id="hari" required>
+            <option value="">-- Pilih Hari --</option>
+            <option value="hari_ini">Hari Ini</option>
+            <option value="besok">Besok</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="waktu">Rentang Waktu:</label>
+          <select id="waktu" required>
+            <option value="">-- Pilih Waktu --</option>
+            <option>08:00 - 09:00</option>
+            <option>09:00 - 10:00</option>
+            <option>10:00 - 11:00</option>
+            <option>13:00 - 14:00</option>
+            <option>14:00 - 15:00</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="keluhan">Keluhan:</label>
+          <textarea
+            id="keluhan"
+            rows="5"
+            placeholder="Tulis keluhan Anda..."
+            style="width:100%;border-radius:6px;border:1px solid #d1cfe9;padding:10px;min-height:100px;resize:vertical;"
+            required
+          ></textarea>
         </div>
         <div class="popup-buttons">
-          <button onclick="submitBooking()">Book Appointment</button>
+          <button onclick="submitBooking()">Buat Reservasi</button>
           <button onclick="closePopup('bookingPopup')">Tutup</button>
         </div>
       </div>
     </div>
+    <script>
+const dokterBySpesialis = {
+  jantung: [
+    { value: "dr_john", label: "Dr. John Doe" },
+    { value: "dr_ayu", label: "Dr. Ayu Kardiolog" }
+  ],
+  anak: [
+    { value: "dr_jane", label: "Dr. Jane Smith" },
+    { value: "dr_budi", label: "Dr. Budi SpA" }
+  ],
+  umum: [
+    { value: "dr_rina", label: "Dr. Rina Umum" },
+    { value: "dr_andre", label: "Dr. Andre Umum" }
+  ]
+};
+
+function updateDokterList() {
+  const spesialis = document.getElementById('spesialis').value;
+  const dokterSelect = document.getElementById('dokter');
+  dokterSelect.innerHTML = '<option value="">-- Pilih Dokter --</option>';
+  if (dokterBySpesialis[spesialis]) {
+    dokterBySpesialis[spesialis].forEach(dokter => {
+      const opt = document.createElement('option');
+      opt.value = dokter.value;
+      opt.textContent = dokter.label;
+      dokterSelect.appendChild(opt);
+    });
+  }
+}
+</script>
 
     <!-- Popup Reservasi Anda -->
     <div class="popup" id="reservationPopup">
@@ -321,54 +305,20 @@
       </div>
     </div>
 
-    <!-- Popup Isi Data Diri -->
-    <div class="popup" id="profilePopup">
-      <div class="popupInner">
-        <h3>Isi Data Diri Pasien</h3>
-        <div class="form-group">
-          <label for="id_pasien">NIK</label>
-          <input
-            type="text"
-            id="id_pasien"
-            placeholder="Masukkan 16 digit"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="nama_pasien">Nama Pasien</label>
-          <input
-            type="text"
-            id="nama_pasien"
-            placeholder="Nama Lengkap"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="email_pasien">Email</label>
-          <input type="email" id="email_pasien" placeholder="Email" required />
-        </div>
-        <div class="form-group">
-          <label for="no_telp_pasien">No. Telepon</label>
-          <input
-            type="tel"
-            id="no_telp_pasien"
-            placeholder="Nomor Telepon"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="alamat_pasien">Alamat</label>
-          <input type="text" id="alamat_pasien" placeholder="Alamat" required />
-        </div>
-        <div class="popup-buttons">
-          <button onclick="saveProfileData()">Simpan</button>
-          <button onclick="closePopup('profilePopup')">Tutup</button>
-        </div>
-      </div>
-    </div>
-
-    <script src="./assets/js/popup.js"></script>
-    <script src="./assets/js/sidebar.js"></script>
-    <script src="./assets/js/booking.js"></script>
+    <script src="assets/js/popup.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/booking.js"></script>
+    <script>
+      window.onload = function() {
+        const data = JSON.parse(localStorage.getItem('profileData'));
+        if (data) {
+          document.getElementById('sidebarNama').textContent = data.nama?.toUpperCase() || '-';
+          document.getElementById('sidebarNIK').textContent = data.nik || '-';
+          document.getElementById('sidebarEmail').textContent = data.email || '-';
+          document.getElementById('sidebarTelp').textContent = data.telp || '-';
+          document.getElementById('sidebarAlamat').textContent = data.alamat || '-';
+        }
+      }
+    </script>
   </body>
 </html>
