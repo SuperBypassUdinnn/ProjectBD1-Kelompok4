@@ -82,6 +82,39 @@ const akunController = {
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },
+
+  // Login akun
+  login: async (req, res) => {
+    const { username, password } = req.body;
+    const [rows] = await db.query(
+      "SELECT * FROM akun WHERE username = ? AND password = ?",
+      [username, password]
+    );
+    if (rows.length > 0) {
+      res.json({ success: true, user: rows[0] });
+    } else {
+      res.status(401).json({ message: "Username atau password salah" });
+    }
+  },
+
+  // Register akun
+  register: async (req, res) => {
+    const { username, password } = req.body;
+    // Validasi username unik
+    const [exist] = await db.query("SELECT * FROM akun WHERE username = ?", [
+      username,
+    ]);
+    if (exist.length > 0) {
+      return res.status(400).json({ message: "Username sudah terdaftar" });
+    }
+    // Buat id_akun unik
+    const id_akun = "A" + Math.floor(Math.random() * 10000);
+    await db.query(
+      "INSERT INTO akun (id_akun, username, password) VALUES (?, ?, ?)",
+      [id_akun, username, password]
+    );
+    res.json({ success: true });
+  },
 };
 
 export default akunController;

@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import akunRoutes from "./routes/akun.js";
 import dokterRoutes from "./routes/dokter.js";
 
@@ -7,6 +8,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // HELLOO routes
 app.get("/api/hello", (req, res) => {
