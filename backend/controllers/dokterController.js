@@ -48,7 +48,7 @@ const dokterController = {
   createDokter: async (req, res) => {
     const { nama_dokter, no_telp_dokter, id_spesialis } = req.body;
     try {
-      const dokterId = `${generateId("DOK", 4)}`;
+      const dokterId = `${generateId("DOK", 17)}`;
       await db.query("INSERT INTO dokter VALUES (?, ?, ?, ?)", [
         dokterId,
         nama_dokter,

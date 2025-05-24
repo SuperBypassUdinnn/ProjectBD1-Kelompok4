@@ -35,7 +35,7 @@ const akunController = {
   createAkun: async (req, res) => {
     const { username, password } = req.body;
     try {
-      const akunId = `${generateId("AC", 4)}`;
+      const akunId = `${generateId("AC", 18)}`;
       await db.query("INSERT INTO akun VALUES (?, ?, ?)", [
         akunId,
         username,
