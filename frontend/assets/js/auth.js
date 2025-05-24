@@ -15,7 +15,11 @@ async function handleLogin() {
     });
     const data = await res.json();
     if (res.ok) {
-      // Simpan data user/token jika perlu
+      // Simpan username ke localStorage agar sidebar bisa akses
+      localStorage.setItem(
+        "profileData",
+        JSON.stringify({ username: data.username || username })
+      );
       alert("Login berhasil!");
       window.location.href = "mainmenu.html";
     } else {
@@ -54,8 +58,11 @@ async function handleRegister() {
     });
     const data = await res.json();
     if (res.ok) {
-      alert("Registrasi berhasil! Silakan login");
+      alert("Registrasi berhasil! Silakan isi data diri Anda");
       closePopup("registerPopup");
+      // Tambahkan baris berikut agar form kosong saat register
+      localStorage.removeItem("profileData");
+      window.location.href = "form.html";
     } else {
       alert(data.message || "Registrasi gagal");
     }
