@@ -38,18 +38,36 @@ const reservasiController = {
 
   // Create a new reservasi
   createReservasi: async (req, res) => {
-    const { nama_reservasi, ruang } = req.body;
+    const { status, id_pasien, id_jadwal, keluhan } = req.body;
     try {
-      const reservasiId = `S${generateId()}`;
-      await db.query("INSERT INTO reservasi VALUES (?, ?, ?)", [
+      const reservasiId = `R${generateId()}`;
+      const [rows] = await db.query(
+        `
+        SELECT * 
+        FROM reservasi
+        WHERE id_jadwal = ? AND status = 'baru'
+        `,
+        [id_jadwal]
+      );
+
+      console.log(rows.length);
+
+      if (rows.length >= 5)
+        return res.status(400).json({ message: "Jadwal penuh" });
+
+      await db.query("INSERT INTO reservasi VALUES (?, ?, ?, ?, ?)", [
         reservasiId,
-        nama_reservasi,
-        ruang,
+        "baru",
+        id_pasien,
+        id_jadwal,
+        keluhan,
       ]);
       res.status(201).json({
         id_reservasi: reservasiId,
-        nama_reservasi: nama_reservasi,
-        ruang,
+        status: "baru",
+        id_pasien,
+        id_jadwal,
+        keluhan,
       });
     } catch (err) {
       console.error(err);
@@ -59,11 +77,11 @@ const reservasiController = {
 
   // Update reservasi
   updateReservasi: async (req, res) => {
-    const { nama_reservasi, ruang } = req.body;
+    const { status, id_pasien, id_jadwal, keluhan } = req.body;
     try {
       const [result] = await db.query(
-        "UPDATE reservasi SET nama_reservasi = ?, ruang = ? WHERE id_reservasi = ?",
-        [nama_reservasi, ruang, req.params.id]
+        "UPDATE reservasi SET status = ? , id_pasien = ?, id_jadwal = ?, keluhan = ? WHERE id_reservasi = ?",
+        [status, id_pasien, id_jadwal, keluhan, req.params.id]
       );
       if (result.affectedRows === 0)
         return res.status(404).json({ message: "Reservasi tidak ditemukan" });
