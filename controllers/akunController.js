@@ -1,7 +1,5 @@
 import db from "../db.js";
-import { customAlphabet } from "nanoid";
-
-const generateId = customAlphabet("0123456789", 19);
+import { generateId } from "../utils/id.js";
 
 const akunController = {
   // Get all akun
@@ -38,11 +36,10 @@ const akunController = {
     const { username, password, nik } = req.body;
     try {
       const akunId = `A${generateId()}`;
-      await db.query("INSERT INTO akun VALUES (?, ?, ?, ?)", [
+      await db.query("INSERT INTO akun VALUES (?, ?, ?)", [
         akunId,
         username,
         password,
-        nik,
       ]);
       res.status(201).json({ id_akun: akunId, username, password, nik });
     } catch (err) {

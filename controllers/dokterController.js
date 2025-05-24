@@ -1,7 +1,5 @@
 import db from "../db.js";
-import { customAlphabet } from "nanoid";
-
-const generateId = customAlphabet("0123456789", 19);
+import { generateId } from "../utils/id.js";
 
 const dokterController = {
   // Get all dokter
