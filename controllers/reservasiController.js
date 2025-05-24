@@ -50,8 +50,6 @@ const reservasiController = {
         [id_jadwal]
       );
 
-      console.log(rows.length);
-
       if (rows.length >= 5)
         return res.status(400).json({ message: "Jadwal penuh" });
 
