@@ -1,5 +1,4 @@
 import db from "../db.js";
-import { generateId } from "../utils/generateId.js";
 
 const jadwalDokterController = {
   // Get all jadwal_dokter

@@ -1,5 +1,5 @@
 import db from "../db.js";
-import { generateId } from "../utils/generateId.js";
+import { generateAutoIncId } from "../utils/generateId.js";
 
 const akunController = {
   // Get all akun
@@ -27,28 +27,6 @@ const akunController = {
       res.json(rows[0]);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
-    }
-  },
-
-  // Create a new akun
-  createAkun: async (req, res) => {
-    const { username, password } = req.body;
-    try {
-      // Cek username unik
-      const [exist] = await db.query("SELECT * FROM akun WHERE username = ?", [
-        username,
-      ]);
-      if (exist.length > 0) {
-        return res.status(400).json({ error: "Username sudah terdaftar" });
-      }
-      const akunId = `${generateId("AC", 4)}`;
-      await db.query(
-        "INSERT INTO akun (id_akun, username, password) VALUES (?, ?, ?)",
-        [akunId, username, password]
-      );
-      res.status(201).json({ id_akun: akunId, username, password });
-    } catch (err) {
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },
@@ -110,7 +88,7 @@ const akunController = {
       if (exist.length > 0) {
         return res.status(400).json({ error: "Username sudah terdaftar" });
       }
-      const id_akun = generateId("AC", 4);
+      const id_akun = await generateAutoIncId("AC", "akun", "id_akun", 4);
       await db.query(
         "INSERT INTO akun (id_akun, username, password) VALUES (?, ?, ?)",
         [id_akun, username, password]

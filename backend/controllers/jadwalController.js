@@ -1,5 +1,5 @@
 import db from "../db.js";
-import { generateId } from "../utils/generateId.js";
+import { generateAutoIncId } from "../utils/generateId.js";
 
 const jadwalController = {
   // Get all jadwal
@@ -36,7 +36,7 @@ const jadwalController = {
   createJadwal: async (req, res) => {
     const { jam_mulai, jam_selesai, hari } = req.body;
     try {
-      const jadwalId = `${generateId("JD", 4)}`;
+      const jadwalId = await generateAutoIncId("JD", "jadwal", "id_jadwal", 4);
       await db.query("INSERT INTO jadwal VALUES (?, ?, ?, ?, ?)", [
         jadwalId,
         jam_mulai,

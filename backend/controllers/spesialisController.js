@@ -1,5 +1,5 @@
 import db from "../db.js";
-import { generateId } from "../utils/generateId.js";
+import { generateAutoIncId } from "../utils/generateId.js";
 
 const spesialisController = {
   // Get all spesialis
@@ -47,7 +47,12 @@ const spesialisController = {
       if (exist.length > 0) {
         return res.status(400).json({ error: "Nama spesialis sudah ada" });
       }
-      const spesialisId = `${generateId("SPL", 4)}`;
+      const spesialisId = await generateAutoIncId(
+        "SPL",
+        "spesialis",
+        "id_spesialis",
+        4
+      );
       await db.query("INSERT INTO spesialis VALUES (?, ?, ?)", [
         spesialisId,
         nama_spesialis,

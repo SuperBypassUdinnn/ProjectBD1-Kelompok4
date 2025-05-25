@@ -1,5 +1,5 @@
 import db from "../db.js";
-import { generateId } from "../utils/generateId.js";
+import { generateAutoIncId } from "../utils/generateId.js";
 
 const dokterController = {
   // Get all dokter
@@ -48,7 +48,7 @@ const dokterController = {
   createDokter: async (req, res) => {
     const { nama_dokter, no_telp_dokter, id_spesialis } = req.body;
     try {
-      const dokterId = `${generateId("DOK", 4)}`;
+      const dokterId = await generateAutoIncId("DOK", "dokter", "id_dokter", 4);
       await db.query("INSERT INTO dokter VALUES (?, ?, ?, ?)", [
         dokterId,
         nama_dokter,

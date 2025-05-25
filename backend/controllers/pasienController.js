@@ -1,5 +1,5 @@
 import db from "../db.js";
-import { generateId } from "../utils/generateId.js";
+import { generateAutoIncId } from "../utils/generateId.js";
 
 const pasienController = {
   // Get all pasien
@@ -62,7 +62,7 @@ const pasienController = {
       if (existEmail.length > 0) {
         return res.status(400).json({ error: "Email sudah terdaftar" });
       }
-      const pasienId = `${generateId("PSN", 4)}`;
+      const pasienId = await generateAutoIncId("PSN", "pasien", "id_pasien", 4);
       await db.query(
         "INSERT INTO pasien (id_pasien, nama_pasien, nik, email, no_telp_pasien, alamat, id_akun) VALUES (?, ?, ?, ?, ?, ?, ?)",
         [pasienId, nama_pasien, nik, email, no_telp_pasien, alamat, id_akun]

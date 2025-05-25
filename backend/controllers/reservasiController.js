@@ -1,5 +1,5 @@
 import db from "../db.js";
-import { generateId } from "../utils/generateId.js";
+import { generateAutoIncId } from "../utils/generateId.js";
 
 const reservasiController = {
   // Get all reservasi
@@ -51,7 +51,12 @@ const reservasiController = {
         });
       }
       // Buat reservasi
-      const id_reservasi = generateId("R", 4);
+      const id_reservasi = await generateAutoIncId(
+        "RSV",
+        "reservasi",
+        "id_reservasi",
+        4
+      );
       await db.query(
         "INSERT INTO reservasi (id_reservasi, status, id_pasien, id_jadwal, keluhan) VALUES (?, 'baru', ?, ?, ?)",
         [id_reservasi, id_pasien, id_jadwal, keluhan]
