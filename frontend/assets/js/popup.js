@@ -3,6 +3,8 @@ function openPopup(id) {
   document.getElementById(id).classList.add("open");
   if (id === "profilePopup" && typeof fillProfilePopup === "function")
     fillProfilePopup();
+  if (id === "bookingPopup") loadSpesialis();
+  if (id === "reservationPopup") loadReservasi();
 }
 
 function closePopup(id) {

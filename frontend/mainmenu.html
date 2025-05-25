@@ -231,7 +231,7 @@
         dokterSelect.innerHTML = '<option value="">-- Pilih Dokter --</option>';
         document.getElementById("hari").innerHTML =
           '<option value="">-- Pilih Hari --</option>';
-        document.getElementById("waktu").innerHTML =
+        document.getElementById("jadwal").innerHTML =
           '<option value="">-- Pilih Jadwal --</option>';
         if (!id_spesialis) return;
         const res = await fetch(
@@ -250,7 +250,7 @@
         const id_dokter = document.getElementById("dokter").value;
         const hariSelect = document.getElementById("hari");
         hariSelect.innerHTML = '<option value="">-- Pilih Hari --</option>';
-        document.getElementById("waktu").innerHTML =
+        document.getElementById("jadwal").innerHTML =
           '<option value="">-- Pilih Jadwal --</option>';
         if (!id_dokter) return;
         const res = await fetch(
@@ -289,11 +289,11 @@
       document.getElementById("dokter").addEventListener("change", loadHari);
       document.getElementById("hari").addEventListener("change", loadJadwal);
 
-      function openPopup(id) {
-        document.getElementById(id).style.display = "block";
-        if (id === "bookingPopup") loadSpesialis();
-        if (id === "reservationPopup") loadReservasi();
-      }
+      // function openPopup(id) {
+      //   document.getElementById(id).style.display = "block";
+      //   if (id === "bookingPopup") loadSpesialis();
+      //   if (id === "reservationPopup") loadReservasi();
+      // }
     </script>
 
     <!-- Popup Reservasi Anda -->
