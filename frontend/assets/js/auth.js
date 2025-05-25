@@ -18,7 +18,10 @@ async function handleLogin() {
       // Simpan username ke localStorage agar sidebar bisa akses
       localStorage.setItem(
         "profileData",
-        JSON.stringify({ username: data.username || username })
+        JSON.stringify({
+          username: data.username || username,
+          id_akun: data.id_akun,
+        })
       );
       alert("Login berhasil!");
       window.location.href = "mainmenu.html";
@@ -58,7 +61,6 @@ async function handleRegister() {
     });
     const data = await res.json();
     if (res.ok) {
-      // data.id_akun harus dikembalikan dari backend!
       localStorage.setItem(
         "profileData",
         JSON.stringify({ username, id_akun: data.id_akun })

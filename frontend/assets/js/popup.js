@@ -92,25 +92,3 @@ document.addEventListener("keydown", function (e) {
     }
   }
 });
-// Close popup when clicking outside
-document.addEventListener("click", function (e) {
-  const popups = [
-    "loginPopup",
-    "registerPopup",
-    "profilePopup",
-    "bookingPopup",
-    "reservationPopup",
-    "consultationPopup",
-    "infoPopup",
-  ];
-  popups.forEach((id) => {
-    const popup = document.getElementById(id);
-    if (
-      popup &&
-      popup.classList.contains("open") &&
-      !popup.contains(e.target)
-    ) {
-      closePopup(id);
-    }
-  });
-});

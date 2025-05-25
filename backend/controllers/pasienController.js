@@ -63,15 +63,10 @@ const pasienController = {
         return res.status(400).json({ error: "Email sudah terdaftar" });
       }
       const pasienId = `${generateId("PSN", 4)}`;
-      await db.query("INSERT INTO pasien VALUES (?, ?, ?, ?, ?, ?, ?)", [
-        pasienId,
-        nama_pasien,
-        nik,
-        email,
-        no_telp_pasien,
-        alamat,
-        id_akun,
-      ]);
+      await db.query(
+        "INSERT INTO pasien (id_pasien, nama_pasien, nik, email, no_telp_pasien, alamat, id_akun) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [pasienId, nama_pasien, nik, email, no_telp_pasien, alamat, id_akun]
+      );
       res.status(201).json({
         id_pasien: pasienId,
         nama_pasien,

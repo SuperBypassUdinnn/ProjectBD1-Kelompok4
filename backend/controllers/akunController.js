@@ -43,11 +43,10 @@ const akunController = {
         return res.status(400).json({ error: "Username sudah terdaftar" });
       }
       const akunId = `${generateId("AC", 4)}`;
-      await db.query("INSERT INTO akun VALUES (?, ?, ?)", [
-        akunId,
-        username,
-        password,
-      ]);
+      await db.query(
+        "INSERT INTO akun (id_akun, username, password) VALUES (?, ?, ?)",
+        [akunId, username, password]
+      );
       res.status(201).json({ id_akun: akunId, username, password });
     } catch (err) {
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
@@ -104,20 +103,21 @@ const akunController = {
   register: async (req, res) => {
     const { username, password } = req.body;
     try {
+      // Cek username unik
       const [exist] = await db.query("SELECT * FROM akun WHERE username = ?", [
         username,
       ]);
       if (exist.length > 0) {
-        return res.status(400).json({ message: "Username sudah terdaftar" });
+        return res.status(400).json({ error: "Username sudah terdaftar" });
       }
       const id_akun = generateId("AC", 4);
       await db.query(
         "INSERT INTO akun (id_akun, username, password) VALUES (?, ?, ?)",
         [id_akun, username, password]
       );
-      res.json({ success: true });
+      // Pastikan response mengembalikan id_akun!
+      res.status(201).json({ id_akun, username });
     } catch (err) {
-      console.error("REGISTER ERROR:", err); // Tambahkan log detail
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },
