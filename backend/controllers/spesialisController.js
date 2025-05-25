@@ -40,6 +40,13 @@ const spesialisController = {
   createSpesialis: async (req, res) => {
     const { nama_spesialis, ruang } = req.body;
     try {
+      const [exist] = await db.query(
+        "SELECT * FROM spesialis WHERE nama_spesialis = ?",
+        [nama_spesialis]
+      );
+      if (exist.length > 0) {
+        return res.status(400).json({ error: "Nama spesialis sudah ada" });
+      }
       const spesialisId = `${generateId("SPL", 4)}`;
       await db.query("INSERT INTO spesialis VALUES (?, ?, ?)", [
         spesialisId,

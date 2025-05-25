@@ -36,7 +36,7 @@ const jadwalController = {
   createJadwal: async (req, res) => {
     const { jam_mulai, jam_selesai, hari } = req.body;
     try {
-      const jadwalId = `${generateId("JD", 18)}`;
+      const jadwalId = `${generateId("JD", 4)}`;
       await db.query("INSERT INTO jadwal VALUES (?, ?, ?, ?, ?)", [
         jadwalId,
         jam_mulai,

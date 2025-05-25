@@ -35,6 +35,13 @@ const akunController = {
   createAkun: async (req, res) => {
     const { username, password } = req.body;
     try {
+      // Cek username unik
+      const [exist] = await db.query("SELECT * FROM akun WHERE username = ?", [
+        username,
+      ]);
+      if (exist.length > 0) {
+        return res.status(400).json({ error: "Username sudah terdaftar" });
+      }
       const akunId = `${generateId("AC", 4)}`;
       await db.query("INSERT INTO akun VALUES (?, ?, ?)", [
         akunId,
@@ -43,7 +50,6 @@ const akunController = {
       ]);
       res.status(201).json({ id_akun: akunId, username, password });
     } catch (err) {
-      console.error(err);
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },

@@ -47,18 +47,22 @@ const pasienController = {
     const { nama_pasien, email, no_telp_pasien, alamat, id_akun, nik } =
       req.body;
     try {
-      const pasienId = `${generateId("PSN", 4)}`;
-      // Check if pasien with the same NIK already exists
-      const [existingPasien] = await db.query(
-        "SELECT * FROM pasien WHERE nik = ?",
-        [nik]
-      );
-      if (existingPasien.length > 0) {
-        return res.status(400).json({
-          error: "Pasien dengan NIK ini sudah terdaftar",
-        });
+      // Cek NIK unik
+      const [existNik] = await db.query("SELECT * FROM pasien WHERE nik = ?", [
+        nik,
+      ]);
+      if (existNik.length > 0) {
+        return res.status(400).json({ error: "NIK sudah terdaftar" });
       }
-      // Insert new pasien
+      // Cek email unik
+      const [existEmail] = await db.query(
+        "SELECT * FROM pasien WHERE email = ?",
+        [email]
+      );
+      if (existEmail.length > 0) {
+        return res.status(400).json({ error: "Email sudah terdaftar" });
+      }
+      const pasienId = `${generateId("PSN", 4)}`;
       await db.query("INSERT INTO pasien VALUES (?, ?, ?, ?, ?, ?, ?)", [
         pasienId,
         nama_pasien,
@@ -70,15 +74,14 @@ const pasienController = {
       ]);
       res.status(201).json({
         id_pasien: pasienId,
-        nama_pasien: nama_pasien,
-        email: email,
-        no_telp_pasien: no_telp_pasien,
-        alamat: alamat,
-        id_akun: id_akun,
-        nik: nik,
+        nama_pasien,
+        email,
+        no_telp_pasien,
+        alamat,
+        id_akun,
+        nik,
       });
     } catch (err) {
-      console.error(err);
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },
@@ -112,6 +115,20 @@ const pasienController = {
       res.json({ message: "Pasien berhasil dihapus" });
     } catch (err) {
       console.error(err);
+      res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
+    }
+  },
+
+  // Get pasien by Akun ID
+  getPasienByAkun: async (req, res) => {
+    try {
+      const [rows] = await db.query("SELECT * FROM pasien WHERE id_akun = ?", [
+        req.params.id_akun,
+      ]);
+      if (rows.length === 0)
+        return res.status(404).json({ message: "Pasien tidak ditemukan" });
+      res.json(rows[0]);
+    } catch (err) {
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },

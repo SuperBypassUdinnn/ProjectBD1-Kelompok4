@@ -256,27 +256,60 @@
     <div class="popup" id="reservationPopup">
       <div class="popupInner">
         <h3>Reservasi Anda</h3>
-        <div class="form-group">
-          <label>Jadwal Konsultasi Terdekat:</label>
-          <div
-            style="
-              background: #ecebff;
-              padding: 10px;
-              border-radius: 6px;
-              color: #5d5a88;
-            "
-          >
-            <strong>Dr. John Doe</strong><br />
-            22 Mei 2025, 09:00 WIB<br />
-            Status:
-            <span style="color: green; font-weight: 600">Terkonfirmasi</span>
-          </div>
-        </div>
+        <div class="form-group" id="reservasiList">Memuat...</div>
         <div class="popup-buttons">
           <button onclick="closePopup('reservationPopup')">Tutup</button>
         </div>
       </div>
     </div>
+    <script>
+      async function loadReservasi() {
+        const data = JSON.parse(localStorage.getItem("profileData"));
+        if (!data || !data.id_pasien) {
+          document.getElementById("reservasiList").innerHTML =
+            "Data pasien tidak ditemukan.";
+          return;
+        }
+        const res = await fetch(
+          `http://localhost:3000/api/reservasi/pasien/${data.id_pasien}`
+        );
+        const reservasi = await res.json();
+        if (!Array.isArray(reservasi) || reservasi.length === 0) {
+          document.getElementById("reservasiList").innerHTML =
+            "Belum ada reservasi.";
+          return;
+        }
+        document.getElementById("reservasiList").innerHTML = reservasi
+          .map(
+            (r) => `
+        <div style="background:#ecebff;padding:10px;border-radius:6px;margin-bottom:10px;">
+          <strong>${r.nama_dokter}</strong><br>
+          ${r.hari}, ${r.jam_mulai} - ${r.jam_selesai}<br>
+          Status: <span style="color:${
+            r.status === "baru" ? "green" : "gray"
+          };font-weight:600">${r.status}</span>
+          ${
+            r.status === "baru"
+              ? `<br><button onclick="batalkanReservasi('${r.id_reservasi}')">Batalkan</button>`
+              : ""
+          }
+        </div>
+      `
+          )
+          .join("");
+      }
+      async function batalkanReservasi(id) {
+        if (!confirm("Yakin ingin membatalkan reservasi ini?")) return;
+        await fetch(`http://localhost:3000/api/reservasi/batal/${id}`, {
+          method: "PATCH",
+        });
+        loadReservasi();
+      }
+      function openPopup(id) {
+        document.getElementById(id).style.display = "block";
+        if (id === "reservationPopup") loadReservasi();
+      }
+    </script>
 
     <!-- Popup Konsultasi -->
     <div class="popup" id="consultationPopup">

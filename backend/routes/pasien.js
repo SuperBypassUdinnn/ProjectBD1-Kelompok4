@@ -5,6 +5,7 @@ const pasienRouter = express.Router();
 
 pasienRouter.get("/", pasienController.getPasiens);
 pasienRouter.get("/:id", pasienController.getPasienById);
+pasienRouter.get("/akun/:id_akun", pasienController.getPasienByAkun);
 pasienRouter.post("/", pasienController.createPasien);
 pasienRouter.put("/:id", pasienController.updatePasien);
 pasienRouter.delete("/:id", pasienController.deletePasien);
