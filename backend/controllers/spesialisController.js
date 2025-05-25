@@ -55,11 +55,10 @@ const spesialisController = {
       ]);
       res.status(201).json({
         id_spesialis: spesialisId,
-        nama_spesialis: nama_spesialis,
+        nama_spesialis,
         ruang,
       });
     } catch (err) {
-      console.error(err);
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },

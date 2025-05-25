@@ -49,31 +49,101 @@
       </div>
     </div>
     <script>
-      function saveProfileData() {
+      async function saveProfileData() {
         if (window.location.search.includes("readonly=true")) return;
         const data = {
           nik: document.getElementById("id_pasien").value,
-          nama: document.getElementById("nama_pasien").value,
+          nama_pasien: document.getElementById("nama_pasien").value,
           email: document.getElementById("email_pasien").value,
-          telp: document.getElementById("no_telp_pasien").value,
+          no_telp_pasien: document.getElementById("no_telp_pasien").value,
           alamat: document.getElementById("alamat_pasien").value,
-          // Tambahkan username jika sudah ada di localStorage
-          username:
-            JSON.parse(localStorage.getItem("profileData"))?.username || "",
+          id_akun:
+            JSON.parse(localStorage.getItem("profileData"))?.id_akun || "",
         };
-        localStorage.setItem("profileData", JSON.stringify(data));
-        window.location.href = "form.html?readonly=true";
+
+        // Validasi
+        if (
+          !data.nik ||
+          !data.nama_pasien ||
+          !data.email ||
+          !data.no_telp_pasien ||
+          !data.alamat
+        ) {
+          alert("Mohon lengkapi semua data!");
+          return;
+        }
+
+        try {
+          // Cek mode: tambah atau edit
+          const isEdit = !!localStorage.getItem("id_pasien");
+          let res, result;
+          if (isEdit) {
+            // Update data
+            const id_pasien = localStorage.getItem("id_pasien");
+            res = await fetch(`http://localhost:3000/api/pasien/${id_pasien}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+          } else {
+            // Tambah data baru
+            res = await fetch("http://localhost:3000/api/pasien", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+          }
+          result = await res.json();
+          if (!res.ok) {
+            alert(
+              result.error || result.message || "Gagal menyimpan data diri"
+            );
+            return;
+          }
+          // Simpan id_pasien ke localStorage untuk akses berikutnya
+          localStorage.setItem(
+            "id_pasien",
+            result.id_pasien || result.id || data.id_pasien
+          );
+
+          // Simpan data ke localStorage untuk sidebar (opsional)
+          localStorage.setItem(
+            "profileData",
+            JSON.stringify({
+              ...data,
+              id_pasien: result.id_pasien || result.id || data.id_pasien,
+            })
+          );
+
+          // Redirect
+          if (window.location.search.includes("from=register")) {
+            window.location.href = "mainmenu.html";
+          } else {
+            window.location.href = "form.html?readonly=true";
+          }
+        } catch (err) {
+          alert("Terjadi kesalahan koneksi ke server");
+        }
       }
 
       // Prefill data jika ada
-      window.onload = function () {
-        const data = JSON.parse(localStorage.getItem("profileData"));
-        if (data) {
-          document.getElementById("id_pasien").value = data.nik || "";
-          document.getElementById("nama_pasien").value = data.nama || "";
-          document.getElementById("email_pasien").value = data.email || "";
-          document.getElementById("no_telp_pasien").value = data.telp || "";
-          document.getElementById("alamat_pasien").value = data.alamat || "";
+      window.onload = async function () {
+        const isFromRegister = window.location.search.includes("from=register");
+        const id_pasien = localStorage.getItem("id_pasien");
+        if (!isFromRegister && id_pasien) {
+          const res = await fetch(
+            `http://localhost:3000/api/pasien/${id_pasien}`
+          );
+          if (res.ok) {
+            const data = await res.json();
+            document.getElementById("id_pasien").value = data.nik || "";
+            document.getElementById("nama_pasien").value =
+              data.nama_pasien || "";
+            document.getElementById("email_pasien").value = data.email || "";
+            document.getElementById("no_telp_pasien").value =
+              data.no_telp_pasien || "";
+            document.getElementById("alamat_pasien").value = data.alamat || "";
+          }
         }
         // Mode readonly
         if (window.location.search.includes("readonly=true")) {

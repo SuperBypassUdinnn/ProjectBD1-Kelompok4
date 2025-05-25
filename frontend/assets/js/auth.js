@@ -58,11 +58,13 @@ async function handleRegister() {
     });
     const data = await res.json();
     if (res.ok) {
-      alert("Registrasi berhasil! Silakan isi data diri Anda");
-      closePopup("registerPopup");
-      // Tambahkan baris berikut agar form kosong saat register
-      localStorage.removeItem("profileData");
-      window.location.href = "form.html";
+      // data.id_akun harus dikembalikan dari backend!
+      localStorage.setItem(
+        "profileData",
+        JSON.stringify({ username, id_akun: data.id_akun })
+      );
+      localStorage.removeItem("id_pasien");
+      window.location.href = "form.html?from=register";
     } else {
       alert(data.message || "Registrasi gagal");
     }

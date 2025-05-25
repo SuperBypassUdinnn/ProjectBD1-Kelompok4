@@ -3,10 +3,14 @@ import reservasiController from "../controllers/reservasiController.js";
 
 const reservasiRouter = express.Router();
 
-reservasiRouter.get("/", reservasiController.getReservasi);
-reservasiRouter.get("/:id", reservasiController.getReservasiById);
 reservasiRouter.post("/", reservasiController.createReservasi);
-reservasiRouter.put("/:id", reservasiController.updateReservasi);
-reservasiRouter.delete("/:id", reservasiController.deleteReservasi);
+reservasiRouter.get(
+  "/pasien/:id_pasien",
+  reservasiController.getReservasiByPasien
+);
+reservasiRouter.patch(
+  "/batal/:id_reservasi",
+  reservasiController.cancelReservasi
+);
 
 export default reservasiRouter;

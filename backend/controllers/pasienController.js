@@ -66,20 +66,20 @@ const pasienController = {
       await db.query("INSERT INTO pasien VALUES (?, ?, ?, ?, ?, ?, ?)", [
         pasienId,
         nama_pasien,
+        nik,
         email,
         no_telp_pasien,
         alamat,
         id_akun,
-        nik,
       ]);
       res.status(201).json({
         id_pasien: pasienId,
         nama_pasien,
+        nik,
         email,
         no_telp_pasien,
         alamat,
         id_akun,
-        nik,
       });
     } catch (err) {
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
