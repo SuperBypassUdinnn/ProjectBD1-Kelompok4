@@ -48,7 +48,7 @@ const dokterController = {
   createDokter: async (req, res) => {
     const { nama_dokter, no_telp_dokter, id_spesialis } = req.body;
     try {
-      const dokterId = await generateAutoIncId("DOK", "dokter", "id_dokter", 4);
+      const dokterId = await generateAutoIncId("DR", "dokter", "id_dokter", 4);
       await db.query("INSERT INTO dokter VALUES (?, ?, ?, ?)", [
         dokterId,
         nama_dokter,

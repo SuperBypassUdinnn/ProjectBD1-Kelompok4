@@ -54,7 +54,7 @@ CREATE TABLE `dokter` (
 
 CREATE TABLE `jadwal` (
   `id_jadwal` varchar(8) NOT NULL,
-  `hari` varchar(10) NOT NULL,
+  `hari` ENUM('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu') NOT NULL,
   `jam_mulai` time NOT NULL,
   `jam_selesai` time NOT NULL,
   `max_pasien` int(11) NOT NULL DEFAULT 5
