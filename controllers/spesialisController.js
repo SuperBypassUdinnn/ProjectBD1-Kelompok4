@@ -40,7 +40,12 @@ const spesialisController = {
   createSpesialis: async (req, res) => {
     const { nama_spesialis, ruang } = req.body;
     try {
-      const spesialisId = `S${generateId()}`;
+      const [idRows] = await db.query(`
+        SELECT id_spesialis 
+        FROM spesialis
+        `);
+      idRows.length++;
+      const spesialisId = `S${idRows.length}`;
       await db.query("INSERT INTO spesialis VALUES (?, ?, ?)", [
         spesialisId,
         nama_spesialis,

@@ -47,7 +47,12 @@ const pasienController = {
     const { nama_pasien, email, no_telp_pasien, alamat, id_akun, nik } =
       req.body;
     try {
-      const pasienId = `P${generateId()}`;
+      const [idRows] = await db.query(`
+        SELECT id_pasien 
+        FROM pasien
+        `);
+      idRows.length++;
+      const pasienId = `P${idRows.length}`;
       await db.query("INSERT INTO pasien VALUES (?, ?, ?, ?, ?, ?, ?)", [
         pasienId,
         nama_pasien,

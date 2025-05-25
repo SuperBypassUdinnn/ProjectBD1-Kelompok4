@@ -40,7 +40,12 @@ const reservasiController = {
   createReservasi: async (req, res) => {
     const { status, id_pasien, id_jadwal, keluhan } = req.body;
     try {
-      const reservasiId = `R${generateId()}`;
+      const [idRows] = await db.query(`
+        SELECT id_reservasi
+        FROM reservasi
+        `);
+      idRows.length++;
+      const reservasiId = `R${idRows.length}`;
       const [rows] = await db.query(
         `
         SELECT * 

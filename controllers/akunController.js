@@ -33,15 +33,20 @@ const akunController = {
 
   // Create a new akun
   createAkun: async (req, res) => {
-    const { username, password, nik } = req.body;
+    const { username, password } = req.body;
     try {
-      const akunId = `A${generateId()}`;
+      const [idRows] = await db.query(`
+        SELECT id_akun 
+        FROM akun
+        `);
+      idRows.length++;
+      const akunId = `A${idRows.length}`;
       await db.query("INSERT INTO akun VALUES (?, ?, ?)", [
         akunId,
         username,
         password,
       ]);
-      res.status(201).json({ id_akun: akunId, username, password, nik });
+      res.status(201).json({ id_akun: akunId, username, password });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
