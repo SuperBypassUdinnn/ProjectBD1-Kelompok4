@@ -1,5 +1,4 @@
 import db from "../db.js";
-import { generateId } from "../utils/id.js";
 
 const pasienController = {
   // Get all pasien

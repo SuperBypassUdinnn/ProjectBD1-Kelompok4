@@ -12,7 +12,10 @@ jadwalDokterRouter.get(
   "/dokter/:id",
   jadwalDokterController.getJadwalDokterByDokterId
 );
-
 jadwalDokterRouter.post("/", jadwalDokterController.createJadwalDokter);
+jadwalDokterRouter.delete(
+  "/:id_dokter/:id_jadwal",
+  jadwalDokterController.deleteJadwalDokter
+);
 
 export default jadwalDokterRouter;

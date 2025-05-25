@@ -23,7 +23,7 @@ app.use("/api/akun", akunRoutes);
 app.use("/api/dokter", dokterRoutes);
 app.use("/api/pasien", pasienRoutes);
 app.use("/api/spesialis", spesialisRoutes);
-app.use("/api/jadwal-dokter", jadwalDokterRoutes);
+app.use("/api/jadwalDokter", jadwalDokterRoutes);
 app.use("/api/jadwal", jadwalRoutes);
 app.use("/api/reservasi", reservasiRoutes);
 
