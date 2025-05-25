@@ -187,6 +187,37 @@ const jadwalDokterController = {
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },
+
+  // Get hari by dokter ID
+  getHariByDokter: async (req, res) => {
+    try {
+      const { id_dokter } = req.query;
+      const [rows] = await db.query(
+        `SELECT DISTINCT j.hari FROM jadwal_dokter jd
+         JOIN jadwal j ON jd.id_jadwal = j.id_jadwal
+         WHERE jd.id_dokter = ?`,
+        [id_dokter]
+      );
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
+    }
+  },
+  // Get jadwal by dokter ID and hari
+  getJadwalByDokterAndHari: async (req, res) => {
+    try {
+      const { id_dokter, hari } = req.query;
+      const [rows] = await db.query(
+        `SELECT j.id_jadwal, j.jam_mulai, j.jam_selesai FROM jadwal_dokter jd
+         JOIN jadwal j ON jd.id_jadwal = j.id_jadwal
+         WHERE jd.id_dokter = ? AND j.hari = ?`,
+        [id_dokter, hari]
+      );
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
+    }
+  },
 };
 
 export default jadwalDokterController;

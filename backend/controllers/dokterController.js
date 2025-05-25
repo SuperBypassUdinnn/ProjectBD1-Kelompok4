@@ -99,6 +99,20 @@ const dokterController = {
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
   },
+
+  // Get dokter by Spesialis
+  getDokterBySpesialis: async (req, res) => {
+    try {
+      const { id_spesialis } = req.params;
+      const [rows] = await db.query(
+        "SELECT id_dokter, nama_dokter FROM dokter WHERE id_spesialis = ?",
+        [id_spesialis]
+      );
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
+    }
+  },
 };
 
 export default dokterController;

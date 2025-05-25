@@ -12,6 +12,11 @@ jadwalDokterRouter.get(
   "/dokter/:id",
   jadwalDokterController.getJadwalDokterByDokterId
 );
+jadwalDokterRouter.get("/hari", jadwalDokterController.getHariByDokter); // Tambahan
+jadwalDokterRouter.get(
+  "/jadwal",
+  jadwalDokterController.getJadwalByDokterAndHari
+); // Tambahan
 
 jadwalDokterRouter.post("/", jadwalDokterController.createJadwalDokter);
 
