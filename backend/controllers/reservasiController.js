@@ -110,19 +110,19 @@ const reservasiController = {
   // Lihat semua reservasi pasien
   getReservasiByPasien: async (req, res) => {
     try {
+      const { id_pasien } = req.params;
       const [rows] = await db.query(
         `SELECT r.*, j.hari, j.jam_mulai, j.jam_selesai, d.nama_dokter
          FROM reservasi r
          JOIN jadwal j ON r.id_jadwal = j.id_jadwal
          JOIN jadwal_dokter jd ON jd.id_jadwal = j.id_jadwal
          JOIN dokter d ON jd.id_dokter = d.id_dokter
-         WHERE r.id_pasien = ?
-         ORDER BY j.hari, j.jam_mulai`,
-        [req.params.id_pasien]
+         WHERE r.id_pasien = ?`,
+        [id_pasien]
       );
       res.json(rows);
     } catch (err) {
-      res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
+      res.status(500).json({ error: "Terjadi kesalahan, silakan coba lagi" });
     }
   },
 

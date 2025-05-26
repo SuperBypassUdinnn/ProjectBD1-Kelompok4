@@ -67,6 +67,7 @@ CREATE TABLE `jadwal` (
 --
 
 CREATE TABLE `jadwal_dokter` (
+  `id_jadwal_dokter` varchar(8) NOT NULL,
   `id_dokter` varchar(8) NOT NULL,
   `id_jadwal` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -84,7 +85,7 @@ CREATE TABLE `pasien` (
   `email` varchar(50) DEFAULT NULL,
   `no_telp_pasien` varchar(15) DEFAULT NULL,
   `alamat` varchar(50) DEFAULT NULL,
-  `id_akun` varchar(8) DEFAULT NULL
+  `id_akun` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -97,7 +98,7 @@ CREATE TABLE `reservasi` (
   `id_reservasi` varchar(8) NOT NULL,
   `status` enum('baru','selesai','batal') DEFAULT 'baru',
   `id_pasien` varchar(8) DEFAULT NULL,
-  `id_jadwal` varchar(8) DEFAULT NULL,
+  `id_jadwal_dokter` varchar(8) DEFAULT NULL,
   `keluhan` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -141,7 +142,8 @@ ALTER TABLE `jadwal`
 -- Indexes for table `jadwal_dokter`
 --
 ALTER TABLE `jadwal_dokter`
-  ADD PRIMARY KEY (`id_dokter`,`id_jadwal`),
+  ADD PRIMARY KEY (`id_jadwal_dokter`),
+  ADD KEY `id_dokter` (`id_dokter`),
   ADD KEY `id_jadwal` (`id_jadwal`);
 
 --
@@ -159,7 +161,7 @@ ALTER TABLE `pasien`
 ALTER TABLE `reservasi`
   ADD PRIMARY KEY (`id_reservasi`),
   ADD KEY `id_pasien` (`id_pasien`),
-  ADD KEY `id_jadwal` (`id_jadwal`);
+  ADD KEY `id_jadwal_dokter` (`id_jadwal_dokter`);
 
 --
 -- Indexes for table `spesialis`
@@ -195,7 +197,7 @@ ALTER TABLE `pasien`
 --
 ALTER TABLE `reservasi`
   ADD CONSTRAINT `reservasi_ibfk_1` FOREIGN KEY (`id_pasien`) REFERENCES `pasien` (`id_pasien`),
-  ADD CONSTRAINT `reservasi_ibfk_2` FOREIGN KEY (`id_jadwal`) REFERENCES `jadwal` (`id_jadwal`);
+  ADD CONSTRAINT `reservasi_ibfk_2` FOREIGN KEY (`id_jadwal_dokter`) REFERENCES `jadwal` (`id_jadwal_dokter`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

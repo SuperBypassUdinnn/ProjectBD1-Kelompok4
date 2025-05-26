@@ -14,17 +14,32 @@ async function handleLogin() {
       body: JSON.stringify({ username, password }),
     });
     const data = await res.json();
-    if (res.ok) {
-      // Simpan username ke localStorage agar sidebar bisa akses
-      localStorage.setItem(
-        "profileData",
-        JSON.stringify({
-          username: data.username || username,
-          id_akun: data.id_akun,
-        })
+    // Pastikan backend mengirim data.user.id_akun
+    const id_akun = data.user?.id_akun || data.id_akun;
+    if (res.ok && id_akun) {
+      // Ambil data pasien berdasarkan id_akun
+      const pasienRes = await fetch(
+        `http://localhost:3000/api/pasien/akun/${id_akun}`
       );
-      alert("Login berhasil!");
-      window.location.href = "mainmenu.html";
+      const pasienData = pasienRes.ok ? await pasienRes.json() : null;
+
+      if (pasienData && pasienData.id_pasien) {
+        // Gabungkan data pasien dan username akun
+        localStorage.setItem(
+          "profileData",
+          JSON.stringify({
+            ...pasienData,
+            username: username,
+          })
+        );
+        alert("Login berhasil!");
+        localStorage.removeItem("id_pasien");
+        window.location.href = "mainmenu.html";
+      } else {
+        alert("Data pasien tidak ditemukan. Silakan lengkapi data diri Anda.");
+        // Redirect ke form data diri jika perlu
+        // window.location.href = "form.html";
+      }
     } else {
       alert(data.message || "Login gagal");
     }
