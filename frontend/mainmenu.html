@@ -258,13 +258,13 @@
       //     )
       //     .join("");
       // }
-      async function batalkanReservasi(id) {
-        if (!confirm("Yakin ingin membatalkan reservasi ini?")) return;
-        await fetch(`http://localhost:3000/api/reservasi/batal/${id}`, {
-          method: "PATCH",
-        });
-        loadReservasi();
-      }
+      // async function batalkanReservasi(id) {
+      //   if (!confirm("Yakin ingin membatalkan reservasi ini?")) return;
+      //   await fetch(`http://localhost:3000/api/reservasi/batal/${id}`, {
+      //     method: "PATCH",
+      //   });
+      //   loadReservasi();
+      // }
       function openPopup(id) {
         document.getElementById(id).style.display = "block";
         if (id === "reservationPopup") loadReservasi();

@@ -38,7 +38,7 @@ const reservasiController = {
 
   // Create a new reservasi
   createReservasi: async (req, res) => {
-    const { id_pasien, id_jadwal, keluhan } = req.body;
+    const { id_pasien, id_jadwal_dokter, keluhan } = req.body;
     try {
       // Cek sudah ada reservasi aktif di jadwal sama
       const [cek] = await db.query(
@@ -76,10 +76,10 @@ const reservasiController = {
 
   // Update reservasi
   updateReservasi: async (req, res) => {
-    const { status, id_pasien, id_jadwal, keluhan } = req.body;
+    const { status, id_pasien, id_jadwal_dokter, keluhan } = req.body;
     try {
       const [result] = await db.query(
-        "UPDATE reservasi SET status = ? , id_pasien = ?, id_jadwal = ?, keluhan = ? WHERE id_reservasi = ?",
+        "UPDATE reservasi SET status = ? , id_pasien = ?, id_jadwal_dokter = ?, keluhan = ? WHERE id_reservasi = ?",
         [status, id_pasien, id_jadwal_dokter, keluhan, req.params.id]
       );
       if (result.affectedRows === 0)
