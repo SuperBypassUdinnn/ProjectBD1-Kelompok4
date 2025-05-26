@@ -52,7 +52,7 @@
       async function saveProfileData() {
         if (window.location.search.includes("readonly=true")) return;
         const data = {
-          nik: document.getElementById("nik").value,
+          nik: document.getElementById("id_pasien").value, // perbaiki di sini
           nama_pasien: document.getElementById("nama_pasien").value,
           email: document.getElementById("email_pasien").value,
           no_telp_pasien: document.getElementById("no_telp_pasien").value,
@@ -100,11 +100,6 @@
             );
             return;
           }
-          // Simpan id_pasien ke localStorage untuk akses berikutnya
-          localStorage.setItem(
-            "id_pasien",
-            result.id_pasien || result.id || data.id_pasien
-          );
 
           // Simpan data ke localStorage untuk sidebar (opsional)
           localStorage.setItem(
@@ -136,7 +131,7 @@
           );
           if (res.ok) {
             const data = await res.json();
-            document.getElementById("nik").value = data.nik || "";
+            document.getElementById("id_pasien").value = data.nik || ""; // perbaiki di sini
             document.getElementById("nama_pasien").value =
               data.nama_pasien || "";
             document.getElementById("email_pasien").value = data.email || "";

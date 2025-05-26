@@ -34,66 +34,6 @@ function logout() {
   window.location.href = "index.html";
 }
 
-// async function saveProfileData() {
-//   const nik = document.getElementById("nik_pasien").value.trim();
-//   const nama = document.getElementById("nama_pasien").value.trim();
-//   const email = document.getElementById("email_pasien").value.trim();
-//   const telp = document.getElementById("no_telp_pasien").value.trim();
-//   const alamat = document.getElementById("alamat_pasien").value.trim();
-
-//   if (!nik || !nama || !email || !telp || !alamat) {
-//     alert("Mohon lengkapi semua data diri.");
-//     return;
-//   }
-
-//   // Ambil username dan id_akun dari localStorage (hasil login/register)
-//   const profile = JSON.parse(localStorage.getItem("profileData")) || {};
-//   const username = profile.username || "";
-//   const id_akun = profile.id_akun || "";
-
-//   // Kirim ke backend
-//   try {
-//     const res = await fetch("http://localhost:3000/api/pasien", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         nik,
-//         nama_pasien: nama,
-//         email,
-//         no_telp_pasien: telp,
-//         alamat,
-//         username,
-//         id_akun,
-//       }),
-//     });
-//     const result = await res.json();
-//     if (!res.ok) {
-//       alert(result.error || result.message || "Gagal menyimpan data diri");
-//       return;
-//     }
-
-//     // Simpan ke localStorage hanya untuk kebutuhan tampilan sidebar
-//     localStorage.setItem(
-//       "profileData",
-//       JSON.stringify({
-//         ...profile,
-//         id_pasien: result.id_pasien,
-//         nama,
-//         nik,
-//         email,
-//         telp,
-//         alamat,
-//       })
-//     );
-
-//     closePopup("profilePopup");
-//     updateSidebarProfile();
-//     alert("Data diri berhasil disimpan!");
-//   } catch (err) {
-//     alert("Terjadi kesalahan koneksi ke server");
-//   }
-// }
-
 // Saat membuka sidebar, ambil data dari localStorage (atau bisa fetch dari backend jika ingin selalu fresh)
 function updateSidebarProfile() {
   const data = JSON.parse(localStorage.getItem("profileData")) || {};

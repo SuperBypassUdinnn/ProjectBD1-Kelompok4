@@ -70,7 +70,7 @@ const jadwalDokterController = {
         `,
         [id_jadwal, id_dokter]
       );
-      res.json(result);
+      res.json(rows); // <-- PERBAIKI DI SINI
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Terjadi kesalahan, silakan coba lagi" });

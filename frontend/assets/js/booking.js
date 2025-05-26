@@ -5,11 +5,10 @@ async function submitBooking() {
   const jadwal = document.getElementById("jadwal").value;
   const keluhan = document.getElementById("keluhan").value.trim();
 
-  // Ambil id_pasien dari localStorage
   const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
   const id_pasien = profileData.id_pasien;
 
-  if (!spesialis || !dokter || !hari || !jadwal || !keluhan) {
+  if (!spesialis || !dokter || !hari || !jadwal) {
     alert("Mohon lengkapi semua data reservasi.");
     return;
   }
@@ -19,12 +18,27 @@ async function submitBooking() {
   }
 
   try {
+    // Ambil id_jadwal_dokter dari backend
+    const resJadwalDokter = await fetch(
+      `http://localhost:3000/api/jadwal-dokter/jadwal-dokter?id_jadwal=${jadwal}&id_dokter=${dokter}`
+    );
+    const dataJadwalDokter = await resJadwalDokter.json();
+    const id_jadwal_dokter =
+      Array.isArray(dataJadwalDokter) && dataJadwalDokter.length > 0
+        ? dataJadwalDokter[0].id_jadwal_dokter
+        : null;
+
+    if (!id_jadwal_dokter) {
+      alert("Jadwal dokter tidak ditemukan.");
+      return;
+    }
+
     const res = await fetch("http://localhost:3000/api/reservasi", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         id_pasien,
-        id_jadwal: jadwal,
+        id_jadwal_dokter,
         keluhan,
       }),
     });
@@ -106,6 +120,67 @@ async function loadJadwal() {
     opt.textContent = `${j.jam_mulai} - ${j.jam_selesai}`;
     jadwalSelect.appendChild(opt);
   });
+}
+
+async function loadReservasi() {
+  const data = JSON.parse(localStorage.getItem("profileData"));
+  const reservasiList = document.getElementById("reservasiList");
+  if (!data || !data.id_pasien) {
+    reservasiList.innerHTML = "Data pasien tidak ditemukan.";
+    return;
+  }
+  reservasiList.innerHTML = "Memuat...";
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/reservasi/pasien/${data.id_pasien}`
+    );
+    const reservasi = await res.json();
+    if (!Array.isArray(reservasi) || reservasi.length === 0) {
+      reservasiList.innerHTML = "Belum ada reservasi.";
+      return;
+    }
+    reservasiList.innerHTML = reservasi
+      .map(
+        (r) => `
+        <div style="background:#ecebff;padding:10px;border-radius:6px;margin-bottom:10px;">
+          <strong>${r.nama_dokter}</strong><br>
+          ${r.hari}, ${r.jam_mulai} - ${r.jam_selesai}<br>
+          Status: <span style="color:${
+            r.status === "baru" ? "green" : "gray"
+          };font-weight:600">${r.status}</span>
+          ${
+            r.status === "baru"
+              ? `<br><button onclick="batalkanReservasi('${r.id_reservasi}')"
+                  style="margin-top:8px;background:#ff4d4f;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;">
+                  Batalkan
+                </button>`
+              : ""
+          }
+        </div>
+      `
+      )
+      .join("");
+  } catch (err) {
+    reservasiList.innerHTML = "Gagal memuat data reservasi.";
+  }
+}
+
+async function batalkanReservasi(id) {
+  if (!confirm("Yakin ingin membatalkan reservasi ini?")) return;
+  try {
+    const res = await fetch(`http://localhost:3000/api/reservasi/${id}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert("Reservasi berhasil dibatalkan.");
+      loadReservasi();
+    } else {
+      alert(data.message || data.error || "Gagal membatalkan reservasi.");
+    }
+  } catch (err) {
+    alert("Terjadi kesalahan koneksi ke server.");
+  }
 }
 
 document.getElementById("spesialis").addEventListener("change", loadDokter);

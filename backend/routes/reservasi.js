@@ -12,5 +12,6 @@ reservasiRouter.patch(
   "/batal/:id_reservasi",
   reservasiController.cancelReservasi
 );
+reservasiRouter.delete("/:id", reservasiController.deleteReservasi);
 
 export default reservasiRouter;
