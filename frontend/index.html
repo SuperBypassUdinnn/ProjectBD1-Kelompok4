@@ -269,6 +269,25 @@
       document.addEventListener("DOMContentLoaded", function () {
         if (localStorage.getItem("profileData")) showProfileIcon();
       });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sembunyikan/disable link Home jika belum login
+        if (!localStorage.getItem("profileData")) {
+          const homeLink = document.querySelector(
+            'nav a[href="mainmenu.html"]'
+          );
+          if (homeLink) {
+            homeLink.addEventListener("click", function (e) {
+              e.preventDefault();
+              alert("Silakan login terlebih dahulu.");
+            });
+            // Optional: tambahkan style agar terlihat nonaktif
+            homeLink.style.pointerEvents = "auto";
+            homeLink.style.opacity = "0.5";
+            homeLink.style.cursor = "not-allowed";
+          }
+        }
+      });
     </script>
   </body>
 </html>
