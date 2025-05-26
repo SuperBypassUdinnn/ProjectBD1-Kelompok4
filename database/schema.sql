@@ -197,7 +197,7 @@ ALTER TABLE `pasien`
 --
 ALTER TABLE `reservasi`
   ADD CONSTRAINT `reservasi_ibfk_1` FOREIGN KEY (`id_pasien`) REFERENCES `pasien` (`id_pasien`),
-  ADD CONSTRAINT `reservasi_ibfk_2` FOREIGN KEY (`id_jadwal_dokter`) REFERENCES `jadwal` (`id_jadwal_dokter`);
+  ADD CONSTRAINT `reservasi_ibfk_2` FOREIGN KEY (`id_jadwal_dokter`) REFERENCES `jadwal_dokter` (`id_jadwal_dokter`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

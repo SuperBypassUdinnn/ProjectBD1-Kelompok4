@@ -42,8 +42,8 @@ const reservasiController = {
     try {
       // Cek sudah ada reservasi aktif di jadwal sama
       const [cek] = await db.query(
-        "SELECT * FROM reservasi WHERE id_pasien = ? AND id_jadwal = ? AND status = 'baru'",
-        [id_pasien, id_jadwal]
+        "SELECT * FROM reservasi WHERE id_pasien = ? AND id_jadwal_dokter = ? AND status = 'baru'",
+        [id_pasien, id_jadwal_dokter]
       );
       if (cek.length > 0) {
         return res.status(400).json({
@@ -58,14 +58,14 @@ const reservasiController = {
         4
       );
       await db.query(
-        "INSERT INTO reservasi (id_reservasi, status, id_pasien, id_jadwal, keluhan) VALUES (?, 'baru', ?, ?, ?)",
-        [id_reservasi, id_pasien, id_jadwal, keluhan]
+        "INSERT INTO reservasi (id_reservasi, status, id_pasien, id_jadwal_dokter, keluhan) VALUES (?, 'baru', ?, ?, ?)",
+        [id_reservasi, id_pasien, id_jadwal_dokter, keluhan]
       );
       res.status(201).json({
         id_reservasi,
         status: "baru",
         id_pasien,
-        id_jadwal,
+        id_jadwal_dokter,
         keluhan,
       });
     } catch (err) {
@@ -80,7 +80,7 @@ const reservasiController = {
     try {
       const [result] = await db.query(
         "UPDATE reservasi SET status = ? , id_pasien = ?, id_jadwal = ?, keluhan = ? WHERE id_reservasi = ?",
-        [status, id_pasien, id_jadwal, keluhan, req.params.id]
+        [status, id_pasien, id_jadwal_dokter, keluhan, req.params.id]
       );
       if (result.affectedRows === 0)
         return res.status(404).json({ message: "Reservasi tidak ditemukan" });
@@ -112,12 +112,19 @@ const reservasiController = {
     try {
       const { id_pasien } = req.params;
       const [rows] = await db.query(
-        `SELECT r.*, j.hari, j.jam_mulai, j.jam_selesai, d.nama_dokter
-         FROM reservasi r
-         JOIN jadwal j ON r.id_jadwal = j.id_jadwal
-         JOIN jadwal_dokter jd ON jd.id_jadwal = j.id_jadwal
-         JOIN dokter d ON jd.id_dokter = d.id_dokter
-         WHERE r.id_pasien = ?`,
+        `SELECT
+          r.id_reservasi,
+          r.keluhan,
+          r.status,
+          j.hari,
+          j.jam_mulai,
+          j.jam_selesai,
+          d.nama_dokter
+        FROM reservasi r
+        JOIN jadwal_dokter jd ON r.id_jadwal_dokter = jd.id_jadwal_dokter
+        JOIN jadwal j ON jd.id_jadwal = j.id_jadwal
+        JOIN dokter d ON jd.id_dokter = d.id_dokter
+        WHERE r.id_pasien = ?`,
         [id_pasien]
       );
       res.json(rows);
