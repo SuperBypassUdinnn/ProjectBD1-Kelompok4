@@ -83,11 +83,11 @@ const pasienController = {
 
   // Update pasien
   updatePasien: async (req, res) => {
-    const { nama_pasien, no_telp_pasien, alamat } = req.body;
+    const { nama_pasien, nik, email, no_telp_pasien, alamat } = req.body;
     try {
       const [result] = await db.query(
-        "UPDATE pasien SET nama_pasien = ?, no_telp_pasien = ?, alamat = ? WHERE id_pasien = ?",
-        [nama_pasien, no_telp_pasien, alamat, req.params.id]
+        "UPDATE pasien SET nama_pasien = ?, nik = ?, email = ?, no_telp_pasien = ?, alamat = ? WHERE id_pasien = ?",
+        [nama_pasien, nik, email, no_telp_pasien, alamat, req.params.id]
       );
       if (result.affectedRows === 0)
         return res.status(404).json({ message: "Pasien tidak ditemukan" });
