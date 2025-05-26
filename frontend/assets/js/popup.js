@@ -1,6 +1,11 @@
 function openPopup(id) {
   document.body.style.overflow = "hidden";
-  document.getElementById(id).classList.add("open");
+  const el = document.getElementById(id);
+  if (!el) {
+    alert("Popup tidak ditemukan di halaman ini.");
+    return;
+  }
+  el.classList.add("open");
   if (id === "profilePopup" && typeof fillProfilePopup === "function")
     fillProfilePopup();
   if (id === "bookingPopup") loadSpesialis();

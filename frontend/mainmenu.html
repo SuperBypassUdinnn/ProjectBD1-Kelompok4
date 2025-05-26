@@ -75,7 +75,7 @@
             "
             onclick="window.location.href='form.html?readonly=true'"
           >
-            Lihat Data Diri
+            Lihat/Ubah Data Diri
           </button>
           <button
             class="logout-btn"
@@ -211,8 +211,6 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-=======
     <script>
       // function openPopup(id) {
       //   document.getElementById(id).style.display = "block";
@@ -220,7 +218,6 @@
       //   if (id === "reservationPopup") loadReservasi();
       // }
     </script>
->>>>>>> dd5d78bcd201ae538d65c4d185915cae2b321de4
 
     <!-- Popup Reservasi Anda -->
     <div class="popup" id="reservationPopup">
@@ -232,54 +229,21 @@
         </div>
       </div>
     </div>
-    <script>
-      // async function loadReservasi() {
-      //   const data = JSON.parse(localStorage.getItem("profileData"));
-      //   if (!data || !data.id_pasien) {
-      //     document.getElementById("reservasiList").innerHTML =
-      //       "Data pasien tidak ditemukan.";
-      //     return;
-      //   }
-      //   const res = await fetch(
-      //     `http://localhost:3000/api/reservasi/pasien/${data.id_pasien}`
-      //   );
-      //   const reservasi = await res.json();
-      //   if (!Array.isArray(reservasi) || reservasi.length === 0) {
-      //     document.getElementById("reservasiList").innerHTML =
-      //       "Belum ada reservasi.";
-      //     return;
-      //   }
-      //   document.getElementById("reservasiList").innerHTML = reservasi
-      //     .map(
-      //       (r) => `
-      //   <div style="background:#ecebff;padding:10px;border-radius:6px;margin-bottom:10px;">
-      //     <strong>${r.nama_dokter}</strong><br>
-      //     ${r.hari}, ${r.jam_mulai} - ${r.jam_selesai}<br>
-      //     Status: <span style="color:${
-      //       r.status === "baru" ? "green" : "gray"
-      //     };font-weight:600">${r.status}</span>
-      //     ${
-      //       r.status === "baru"
-      //         ? `<br><button onclick="batalkanReservasi('${r.id_reservasi}')">Batalkan</button>`
-      //         : ""
-      //     }
-      //   </div>
-      // `
-      //     )
-      //     .join("");
-      // }
-      // async function batalkanReservasi(id) {
-      //   if (!confirm("Yakin ingin membatalkan reservasi ini?")) return;
-      //   await fetch(`http://localhost:3000/api/reservasi/batal/${id}`, {
-      //     method: "PATCH",
-      //   });
-      //   loadReservasi();
-      // }
+    <!-- <script>
       function openPopup(id) {
-        document.getElementById(id).style.display = "block";
-        if (id === "reservationPopup") loadReservasi();
+        document.body.style.overflow = "hidden";
+        const el = document.getElementById(id);
+        if (!el) {
+          alert("Popup tidak ditemukan di halaman ini.");
+          return;
+        }
+        el.classList.add("open");
+        if (id === "profilePopup" && typeof fillProfilePopup === "function")
+          fillProfilePopup();
+        if (id === "bookingPopup") loadSpesialis && loadSpesialis();
+        if (id === "reservationPopup") loadReservasi && loadReservasi();
       }
-    </script>
+    </script> -->
 
     <!-- Popup Konsultasi -->
     <div class="popup" id="consultationPopup">
@@ -360,6 +324,20 @@
             data.username?.toUpperCase() || "-";
         }
       };
+    </script>
+    <script>
+      // Proteksi mainmenu: jika tidak login, redirect ke index.html
+      if (!localStorage.getItem("profileData")) {
+        window.location.href = "index.html";
+      }
+
+      // Proteksi tombol-tombol utama
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!localStorage.getItem("profileData")) {
+          alert("Silakan login terlebih dahulu.");
+          window.location.href = "index.html";
+        }
+      });
     </script>
   </body>
 </html>

@@ -18,7 +18,7 @@
           <img src="assets/images/logo.png" alt="Logo" />
         </div>
         <nav>
-          <a href="#">Home</a>
+          <a href="mainmenu.html">Home</a>
           <a href="#">About</a>
           <a href="#">Contact</a>
           <button class="login-btn" onclick="openPopup('loginPopup')">
@@ -184,5 +184,91 @@
 
     <script src="assets/js/popup.js"></script>
     <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script>
+      function showProfileIcon() {
+        // Sembunyikan tombol login/register
+        document
+          .querySelectorAll(".login-btn, .register-btn")
+          .forEach((btn) => (btn.style.display = "none"));
+        // Tambahkan ikon profil jika belum ada
+        if (!document.getElementById("profileIconBtn")) {
+          const nav = document.querySelector("nav");
+          const btn = document.createElement("button");
+          btn.id = "profileIconBtn";
+          btn.className = "account-btn";
+          btn.style.marginLeft = "12px";
+          btn.innerHTML = `
+            <svg width="28" height="28" fill="none" stroke="#5D5A88" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 16-4 16 0" />
+            </svg>
+          `;
+          btn.onclick = openProfileSidebar;
+          nav.appendChild(btn);
+        }
+      }
+
+      function openProfileSidebar() {
+        let sidebar = document.getElementById("profileSidebar");
+        if (!sidebar) {
+          sidebar = document.createElement("div");
+          sidebar.id = "profileSidebar";
+          sidebar.style.position = "fixed";
+          sidebar.style.top = "0";
+          sidebar.style.right = "0";
+          sidebar.style.width = "320px";
+          sidebar.style.maxWidth = "90vw";
+          sidebar.style.height = "auto";
+          sidebar.style.background = "#fff";
+          sidebar.style.boxShadow = "0 4px 24px rgba(93,90,136,0.13)";
+          sidebar.style.borderRadius = "0 0 2rem 2rem";
+          sidebar.style.zIndex = "2000";
+          sidebar.style.transition =
+            "transform 0.35s cubic-bezier(0.77,0,0.18,1)";
+          sidebar.style.transform = "translateY(-100%)";
+          sidebar.innerHTML = `
+            <div style="padding:2rem 1.5rem 1rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
+              <div style="background:#ecebff;border-radius:50%;padding:12px;margin-bottom:1rem;">
+                <svg width="48" height="48" fill="none" stroke="#5D5A88" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4 20c0-4 16-4 16 0" />
+                </svg>
+              </div>
+              <h3 style="color:#5d5a88;margin:0 0 0.3rem 0;font-size:1.2rem;">
+                ${(
+                  JSON.parse(localStorage.getItem("profileData"))?.username ||
+                  "-"
+                ).toUpperCase()}
+              </h3>
+              <button class="logout-btn" style="margin-top:2rem;width:100%;" onclick="logout()">Log Out</button>
+            </div>
+          `;
+          document.body.appendChild(sidebar);
+          setTimeout(() => {
+            sidebar.style.transform = "translateY(0)";
+            // Tambahkan event listener setelah delay agar tidak langsung tertutup
+            const closeSidebar = function (e) {
+              if (
+                !sidebar.contains(e.target) &&
+                e.target.id !== "profileIconBtn"
+              ) {
+                sidebar.style.transform = "translateY(-100%)";
+                setTimeout(() => {
+                  sidebar.remove();
+                }, 350);
+                document.removeEventListener("click", closeSidebar);
+              }
+            };
+            document.addEventListener("click", closeSidebar);
+          }, 10);
+        }
+      }
+
+      // Saat halaman dimuat, cek login
+      document.addEventListener("DOMContentLoaded", function () {
+        if (localStorage.getItem("profileData")) showProfileIcon();
+      });
+    </script>
   </body>
 </html>

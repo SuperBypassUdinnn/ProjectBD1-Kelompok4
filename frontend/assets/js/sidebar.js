@@ -31,44 +31,41 @@ document.addEventListener("click", function (e) {
 });
 
 function logout() {
+  localStorage.removeItem("profileData");
   window.location.href = "index.html";
 }
+
+// Hapus profileData jika user benar-benar keluar dari web (opsional, jika ingin lebih ketat)
+window.addEventListener("beforeunload", function () {
+  // localStorage.removeItem("profileData");
+  // Jika ingin tetap login di tab lain, baris di atas jangan diaktifkan
+});
 
 // Saat membuka sidebar, ambil data dari localStorage (atau bisa fetch dari backend jika ingin selalu fresh)
 function updateSidebarProfile() {
   const data = JSON.parse(localStorage.getItem("profileData")) || {};
-  const nik = data.nik || "";
-  const nama = data.nama || "";
-  const email = data.email || "";
-  const telp = data.telp || "";
-  const alamat = data.alamat || "";
-
-  const exMark = document.getElementById("exclamationMark");
-  const exMarkTop = document.getElementById("exclamationMarkTop");
   const sidebarNama = document.getElementById("sidebarNama");
-  const sidebarDataDiri = document.getElementById("sidebarDataDiri");
-  const sidebarId = document.getElementById("sidebarId");
-  const sidebarEmail = document.getElementById("sidebarEmail");
-  const sidebarTelp = document.getElementById("sidebarTelp");
-  const sidebarAlamat = document.getElementById("sidebarAlamat");
-  const editBtn = document.getElementById("editProfileBtn");
+  const logoutBtn = document.querySelector(".logout-btn");
+  const loginBtn = document.getElementById("sidebarLoginBtn");
 
-  if (!nik || !nama || !email || !telp || !alamat) {
-    if (exMark) exMark.style.display = "flex";
-    if (exMarkTop) exMarkTop.style.display = "flex";
-    if (sidebarNama) sidebarNama.textContent = "Nama Pengguna";
-    if (sidebarDataDiri) sidebarDataDiri.style.display = "none";
-    if (editBtn) editBtn.textContent = "Isi Data Diri";
+  if (!data.username) {
+    if (sidebarNama) sidebarNama.textContent = "Belum Login";
+    if (logoutBtn) logoutBtn.style.display = "none";
+    if (!loginBtn) {
+      const btn = document.createElement("button");
+      btn.id = "sidebarLoginBtn";
+      btn.className = "logout-btn";
+      btn.textContent = "Login";
+      btn.onclick = function () {
+        closePopup && closePopup("profilePopup");
+        openPopup && openPopup("loginPopup");
+      };
+      document.querySelector(".sidebar-content").appendChild(btn);
+    }
   } else {
-    if (exMark) exMark.style.display = "none";
-    if (exMarkTop) exMarkTop.style.display = "none";
-    if (sidebarNama) sidebarNama.textContent = nama;
-    if (sidebarId) sidebarId.textContent = nik;
-    if (sidebarEmail) sidebarEmail.textContent = email;
-    if (sidebarTelp) sidebarTelp.textContent = telp;
-    if (sidebarAlamat) sidebarAlamat.textContent = alamat;
-    if (sidebarDataDiri) sidebarDataDiri.style.display = "block";
-    if (editBtn) editBtn.textContent = "Ubah Data Diri";
+    if (sidebarNama) sidebarNama.textContent = data.username.toUpperCase();
+    if (logoutBtn) logoutBtn.style.display = "";
+    if (loginBtn) loginBtn.remove();
   }
 }
 

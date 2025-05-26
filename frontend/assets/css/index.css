@@ -352,6 +352,48 @@ nav a:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
+/* Sidebar Profile Icon Button */
+.account-btn {
+  background: #fff;
+  border: 2px solid #ecebff;
+  border-radius: 50%;
+  padding: 7px;
+  box-shadow: 0 2px 8px rgba(93, 90, 136, 0.07);
+  cursor: pointer;
+  transition: box-shadow 0.2s, border 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.account-btn:hover {
+  background: #ecebff;
+  border-color: #bcb9d6;
+  box-shadow: 0 4px 16px rgba(93, 90, 136, 0.13);
+}
+
+/* Tombol logout di sidebar profil */
+.logout-btn {
+  margin-top: 2rem;
+  width: 100%;
+  padding: 0.85rem 0;
+  background: #5d5a88;
+  color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(93, 90, 136, 0.08);
+  letter-spacing: 0.5px;
+}
+
+.logout-btn:hover {
+  background: #47446b;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .hero-content.right {
