@@ -431,3 +431,9 @@ body {
     padding: 4px;
   }
 }
+
+.input-error {
+  color: red;
+  font-size: 0.95em;
+  margin-top: 2px;
+}
