@@ -53,9 +53,26 @@ window.onload = async function () {
   }
 };
 
+function hasInputError() {
+  // Cek jika ada elemen error yang tidak kosong
+  return (
+    document.getElementById("id_pasien_error")?.textContent ||
+    document.getElementById("nama_pasien_error")?.textContent ||
+    document.getElementById("email_pasien_error")?.textContent ||
+    document.getElementById("no_telp_pasien_error")?.textContent
+  );
+}
+
 // Simpan data
 async function saveProfileData() {
   if (window.location.search.includes("readonly=true")) return;
+
+  // Tambahkan pengecekan error di sini
+  if (hasInputError()) {
+    alert("Perbaiki data yang tidak valid sebelum menyimpan!");
+    return;
+  }
+
   const data = {
     nik: document.getElementById("id_pasien").value,
     nama_pasien: document.getElementById("nama_pasien").value,
@@ -176,3 +193,27 @@ document
       clearError("no_telp_pasien");
     }
   });
+
+// Fokus otomatis ke input berikutnya saat tekan Enter
+const formInputs = [
+  "id_pasien",
+  "nama_pasien",
+  "email_pasien",
+  "no_telp_pasien",
+  "alamat_pasien",
+].map((id) => document.getElementById(id));
+
+formInputs.forEach((input, idx) => {
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      // Jika bukan input terakhir, fokus ke berikutnya
+      if (idx < formInputs.length - 1) {
+        formInputs[idx + 1].focus();
+      } else {
+        // Jika input terakhir, trigger simpan
+        saveProfileData();
+      }
+    }
+  });
+});

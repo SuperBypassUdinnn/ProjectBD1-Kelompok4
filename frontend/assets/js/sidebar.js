@@ -83,3 +83,27 @@ function fillProfilePopup() {
 }
 
 document.addEventListener("DOMContentLoaded", updateSidebarProfile);
+
+// Tutup sidebar (dan popup) dengan tombol ESC di seluruh halaman
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    // Untuk sidebar custom (index.html)
+    const profileSidebar = document.getElementById("profileSidebar");
+    if (profileSidebar) {
+      profileSidebar.style.transform = "translateY(-100%)";
+      setTimeout(() => {
+        profileSidebar.remove();
+      }, 350);
+    }
+    // Untuk sidebar mainmenu (misal: id="sidebar" dengan class "open")
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar && sidebar.classList.contains("open")) {
+      typeof toggleSidebar === "function" && toggleSidebar();
+    }
+    // Tutup popup jika ada
+    document.querySelectorAll(".popup.open").forEach((popup) => {
+      popup.classList.remove("open");
+      document.body.style.overflow = "";
+    });
+  }
+});
