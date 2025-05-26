@@ -3,18 +3,18 @@ async function submitBooking() {
   const dokter = document.getElementById("dokter").value;
   const hari = document.getElementById("hari").value;
   const jadwal = document.getElementById("jadwal").value;
-  const keluhan = document.getElementById("keluhan").value.trim() || "";
+  const keluhan = document.getElementById("keluhan").value.trim();
 
   // Ambil id_pasien dari localStorage
   const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
   const id_pasien = profileData.id_pasien;
 
-  if (!spesialis || !dokter || !hari || !jadwal) {
+  if (!spesialis || !dokter || !hari || !jadwal || !keluhan) {
     alert("Mohon lengkapi semua data reservasi.");
     return;
   }
   if (!id_pasien) {
-    alert("Pasien tidak ditemukan. Silakan login ulang.");
+    alert("Data pasien tidak ditemukan. Silakan login ulang.");
     return;
   }
 
@@ -58,10 +58,6 @@ async function loadDokter() {
   const id_spesialis = document.getElementById("spesialis").value;
   const dokterSelect = document.getElementById("dokter");
   dokterSelect.innerHTML = '<option value="">-- Pilih Dokter --</option>';
-  document.getElementById("hari").innerHTML =
-    '<option value="">-- Pilih Hari --</option>';
-  document.getElementById("jadwal").innerHTML =
-    '<option value="">-- Pilih Jadwal --</option>';
   if (!id_spesialis) return;
   const res = await fetch(
     `http://localhost:3000/api/dokter/spesialis/${id_spesialis}`
@@ -112,48 +108,9 @@ async function loadJadwal() {
   });
 }
 
-async function loadReservasi() {
-  const data = JSON.parse(localStorage.getItem("profileData"));
-  if (!data || !data.id_pasien) {
-    document.getElementById("reservasiList").innerHTML =
-      "Data pasien tidak ditemukan.";
-    return;
-  }
-  const res = await fetch(
-    `http://localhost:3000/api/reservasi/pasien/${data.id_pasien}`
-  );
-  const reservasi = await res.json();
-  if (!Array.isArray(reservasi) || reservasi.length === 0) {
-    document.getElementById("reservasiList").innerHTML = "Belum ada reservasi.";
-    return;
-  }
-  document.getElementById("reservasiList").innerHTML = reservasi
-    .map(
-      (r) => `
-        <div style="background:#ecebff;padding:10px;border-radius:6px;margin-bottom:10px;">
-          <strong>${r.nama_dokter}</strong><br>
-          ${r.hari}, ${r.jam_mulai} - ${r.jam_selesai}<br>
-          Status: <span style="color:${
-            r.status === "baru" ? "green" : "gray"
-          };font-weight:600">${r.status}</span>
-          ${
-            r.status === "baru"
-              ? `<br><button onclick="batalkanReservasi('${r.id_reservasi}')">Batalkan</button>`
-              : ""
-          }
-        </div>
-      `
-    )
-    .join("");
-}
-async function batalkanReservasi(id) {
-  if (!confirm("Yakin ingin membatalkan reservasi ini?")) return;
-  await fetch(`http://localhost:3000/api/reservasi/batal/${id}`, {
-    method: "PATCH",
-  });
-  loadReservasi();
-}
-
 document.getElementById("spesialis").addEventListener("change", loadDokter);
 document.getElementById("dokter").addEventListener("change", loadHari);
 document.getElementById("hari").addEventListener("change", loadJadwal);
+document.addEventListener("DOMContentLoaded", () => {
+  loadSpesialis();
+});

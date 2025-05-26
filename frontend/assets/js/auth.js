@@ -14,6 +14,7 @@ async function handleLogin() {
       body: JSON.stringify({ username, password }),
     });
     const data = await res.json();
+
     // Pastikan backend mengirim data.user.id_akun
     const id_akun = data.user?.id_akun || data.id_akun;
     if (res.ok && id_akun) {

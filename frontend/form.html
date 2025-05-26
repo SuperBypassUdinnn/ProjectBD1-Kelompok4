@@ -52,7 +52,7 @@
       async function saveProfileData() {
         if (window.location.search.includes("readonly=true")) return;
         const data = {
-          nik: document.getElementById("id_pasien").value,
+          nik: document.getElementById("nik").value,
           nama_pasien: document.getElementById("nama_pasien").value,
           email: document.getElementById("email_pasien").value,
           no_telp_pasien: document.getElementById("no_telp_pasien").value,
