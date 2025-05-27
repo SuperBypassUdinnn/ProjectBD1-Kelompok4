@@ -38,28 +38,54 @@ const reservasiController = {
 
   // Create a new reservasi
   createReservasi: async (req, res) => {
-    const { id_pasien, id_jadwal_dokter, keluhan } = req.body;
+    const { id_pasien, id_jadwal_dokter, keluhan, tanggal } = req.body;
     try {
-      // Cek sudah ada reservasi aktif di jadwal sama
+      // 1. Cek sudah ada reservasi aktif untuk pasien ini
       const [cek] = await db.query(
-        "SELECT * FROM reservasi WHERE id_pasien = ? AND id_jadwal_dokter = ? AND status = 'baru'",
-        [id_pasien, id_jadwal_dokter]
+        "SELECT * FROM reservasi WHERE id_pasien = ? AND status = 'baru'",
+        [id_pasien]
       );
       if (cek.length > 0) {
         return res.status(400).json({
-          message: "Anda sudah punya reservasi di jadwal ini.",
+          message: "Anda masih memiliki reservasi aktif",
         });
       }
-      // Buat reservasi
+
+      // 2. Validasi waktu reservasi belum lewat
+      const [[jadwal]] = await db.query(
+        `SELECT j.jam_mulai, j.hari FROM jadwal_dokter jd
+         JOIN jadwal j ON jd.id_jadwal = j.id_jadwal
+         WHERE jd.id_jadwal_dokter = ?`,
+        [id_jadwal_dokter]
+      );
+      if (!jadwal) {
+        return res.status(400).json({ message: "Jadwal tidak ditemukan" });
+      }
+      const now = new Date();
+      const jamMulai = jadwal.jam_mulai;
+      const waktuMulai = new Date(`${tanggal}T${jamMulai}`);
+      if (now >= waktuMulai) {
+        return res
+          .status(400)
+          .json({ message: "Jadwal sudah dimulai atau lewat." });
+      }
+
+      // 3. Buat reservasi
       const id_reservasi = await generateAutoIncId(
         "RSV",
         "reservasi",
         "id_reservasi",
         4
       );
+      console.log("DEBUG INSERT RESERVASI:", {
+        id_pasien,
+        id_jadwal_dokter,
+        keluhan,
+        tanggal,
+      });
       await db.query(
-        "INSERT INTO reservasi (id_reservasi, status, id_pasien, id_jadwal_dokter, keluhan) VALUES (?, 'baru', ?, ?, ?)",
-        [id_reservasi, id_pasien, id_jadwal_dokter, keluhan]
+        "INSERT INTO reservasi (id_reservasi, status, id_pasien, id_jadwal_dokter, keluhan, tanggal) VALUES (?, 'baru', ?, ?, ?, ?)",
+        [id_reservasi, id_pasien, id_jadwal_dokter, keluhan, tanggal]
       );
       res.status(201).json({
         id_reservasi,
@@ -67,6 +93,7 @@ const reservasiController = {
         id_pasien,
         id_jadwal_dokter,
         keluhan,
+        tanggal,
       });
     } catch (err) {
       console.error(err);
@@ -116,6 +143,7 @@ const reservasiController = {
           r.id_reservasi,
           r.keluhan,
           r.status,
+          r.tanggal,
           j.hari,
           j.jam_mulai,
           j.jam_selesai,
@@ -146,6 +174,31 @@ const reservasiController = {
     } catch (err) {
       res.status(500).json({ error: "Terjadi kesalahan, silahkan coba lagi" });
     }
+  },
+
+  // Validasi waktu reservasi belum lewat
+  validateReservasiTime: async (req, res, next) => {
+    const { id_jadwal_dokter } = req.body;
+    const [[jadwal]] = await db.query(
+      `SELECT j.jam_mulai, j.hari FROM jadwal_dokter jd
+       JOIN jadwal j ON jd.id_jadwal = j.id_jadwal
+       WHERE jd.id_jadwal_dokter = ?`,
+      [id_jadwal_dokter]
+    );
+    if (jadwal) {
+      // Hitung tanggal hari ini dan jam_mulai
+      const now = new Date();
+      // Cari tanggal yang sesuai hari (dari frontend, value hari = tanggal)
+      const tanggalReservasi = req.body.tanggal; // pastikan frontend kirim tanggal
+      const jamMulai = jadwal.jam_mulai;
+      const waktuMulai = new Date(`${tanggalReservasi}T${jamMulai}`);
+      if (now >= waktuMulai) {
+        return res
+          .status(400)
+          .json({ message: "Jadwal sudah dimulai atau lewat." });
+      }
+    }
+    next();
   },
 };
 

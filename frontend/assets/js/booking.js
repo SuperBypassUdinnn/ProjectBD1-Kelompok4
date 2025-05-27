@@ -40,6 +40,7 @@ async function submitBooking() {
         id_pasien,
         id_jadwal_dokter,
         keluhan,
+        tanggal: hari, // Menambahkan tanggal ke body permintaan
       }),
     });
     const data = await res.json();
@@ -89,35 +90,60 @@ async function loadHari() {
   const id_dokter = document.getElementById("dokter").value;
   const hariSelect = document.getElementById("hari");
   hariSelect.innerHTML = '<option value="">-- Pilih Hari --</option>';
-  document.getElementById("jadwal").innerHTML =
-    '<option value="">-- Pilih Jadwal --</option>';
-  if (!id_dokter) return;
+  const next7Days = getNext7Days();
+  // Ambil hari yang tersedia dari backend (misal: Senin, Selasa, ...)
   const res = await fetch(
     `http://localhost:3000/api/jadwal-dokter/hari?id_dokter=${id_dokter}`
   );
   const data = await res.json();
+  // data = [{hari: "Senin"}, ...]
   data.forEach((h) => {
-    const opt = document.createElement("option");
-    opt.value = h.hari;
-    opt.textContent = h.hari;
-    hariSelect.appendChild(opt);
+    const found = next7Days.find((d) => d.hari === h.hari);
+    if (found) {
+      const opt = document.createElement("option");
+      opt.value = found.tanggal; // gunakan tanggal sebagai value
+      opt.textContent = found.label;
+      hariSelect.appendChild(opt);
+    }
   });
 }
 
+function filterJadwal(jadwalList, tanggal) {
+  const now = new Date();
+  return jadwalList.filter((jadwal) => {
+    const waktuMulai = new Date(`${tanggal}T${jadwal.jam_mulai}`);
+    return waktuMulai > now;
+  });
+}
+
+// Fungsi ini akan menggunakan filterJadwal
 async function loadJadwal() {
   const id_dokter = document.getElementById("dokter").value;
-  const hari = document.getElementById("hari").value;
+  const tanggal = document.getElementById("hari").value; // format YYYY-MM-DD
   const jadwalSelect = document.getElementById("jadwal");
   jadwalSelect.innerHTML = '<option value="">-- Pilih Jadwal --</option>';
-  if (!id_dokter || !hari) return;
+  if (!id_dokter || !tanggal) return;
+
+  // Konversi tanggal ke nama hari (Senin, Selasa, ...)
+  const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const d = new Date(tanggal);
+  const namaHari = days[d.getDay()];
+
+  // Ambil jadwal dari backend dengan nama hari
   const res = await fetch(
-    `http://localhost:3000/api/jadwal-dokter/jadwal?id_dokter=${id_dokter}&hari=${hari}`
+    `http://localhost:3000/api/jadwal-dokter/jadwal?id_dokter=${id_dokter}&hari=${namaHari}`
   );
   const data = await res.json();
-  data.forEach((j) => {
+
+  // Gunakan filterJadwal di sini
+  const filtered = filterJadwal(data, tanggal);
+  filtered.forEach((j) => {
     const opt = document.createElement("option");
     opt.value = j.id_jadwal;
-    opt.textContent = `${j.jam_mulai} - ${j.jam_selesai}`;
+    opt.textContent = `${j.jam_mulai.slice(0, 5)} - ${j.jam_selesai.slice(
+      0,
+      5
+    )}`;
     jadwalSelect.appendChild(opt);
   });
 }
@@ -144,6 +170,11 @@ async function loadReservasi() {
         (r) => `
         <div style="background:#ecebff;padding:10px;border-radius:6px;margin-bottom:10px;">
           <strong>${r.nama_dokter}</strong><br>
+          <span style="font-size:0.98em;color:#5d5a88;">
+            Tanggal: ${
+              r.tanggal ? new Date(r.tanggal).toLocaleDateString("id-ID") : "-"
+            }
+          </span><br>
           ${r.hari}, ${r.jam_mulai} - ${r.jam_selesai}<br>
           Status: <span style="color:${
             r.status === "baru" ? "green" : "gray"
@@ -181,6 +212,27 @@ async function batalkanReservasi(id) {
   } catch (err) {
     alert("Terjadi kesalahan koneksi ke server.");
   }
+}
+
+function getNext7Days() {
+  const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const result = [];
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    result.push({
+      hari: days[d.getDay()],
+      tanggal: d.toISOString().slice(0, 10), // format YYYY-MM-DD
+      label: `${days[d.getDay()]} (${d
+        .getDate()
+        .toString()
+        .padStart(2, "0")}-${(d.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${d.getFullYear()})`,
+    });
+  }
+  return result;
 }
 
 document.getElementById("spesialis").addEventListener("change", loadDokter);

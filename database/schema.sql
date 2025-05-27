@@ -99,7 +99,8 @@ CREATE TABLE `reservasi` (
   `status` enum('baru','selesai','batal') DEFAULT 'baru',
   `id_pasien` varchar(8) DEFAULT NULL,
   `id_jadwal_dokter` varchar(8) DEFAULT NULL,
-  `keluhan` text DEFAULT NULL
+  `keluhan` text DEFAULT NULL.
+  `tanggal` DATE DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
